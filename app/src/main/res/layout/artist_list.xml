@@ -9,13 +9,13 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/artistImage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:src="@drawable/ic_launcher_background"
-        android:padding="5dp"
+        android:padding="7dp"
         app:shapeAppearanceOverlay="@style/Circle"
         android:scaleType="centerCrop"
-        android:elevation="8dp"
+        android:elevation="5dp"
         app:strokeWidth="2dp"
         app:strokeColor="@color/WhiteSmoke" />
 
@@ -25,7 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@+id/artistImage"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginTop="10dp"
         android:textColor="@color/black"
         android:textSize="16dp"
         android:maxLines = "1"
@@ -42,5 +42,13 @@
         android:text="1 songs"
         android:maxLines = "1"
         android:ellipsize = "end"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1.2dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginStart="70dp"
+        android:layout_marginEnd="12dp"
+        android:background="#E6E3E3"/>
 
 </RelativeLayout>

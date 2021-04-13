@@ -13,7 +13,9 @@
             tools:srcCompat="@tools:sample/avatars"
             app:shapeAppearanceOverlay="@style/RoundSquare"
             android:scaleType="centerCrop"
-            android:elevation="3.3dp" />
+            android:elevation="3.3dp"
+            app:strokeWidth="0.3dp"
+            app:strokeColor="#C6A1A1A1"/>
 
         <TextView
             android:id="@+id/albumName"

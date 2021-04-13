@@ -10,6 +10,6 @@
         android:id="@+id/artistRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/DarkGray"
+        android:background="@color/design_default_color_background"
         android:layout_marginHorizontal="5dp"/>
 </LinearLayout>
