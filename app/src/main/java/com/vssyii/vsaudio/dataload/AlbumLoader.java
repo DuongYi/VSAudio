@@ -12,7 +12,7 @@ import java.util.List;
 
 public class AlbumLoader {
 
-    public List<Album> getAlbums(Context context, Cursor cursor) {
+    public List<Album> getAlbums(Cursor cursor) {
         List<Album> list = new ArrayList<>();
         if(cursor != null && cursor.moveToFirst()) {
             do {
@@ -46,7 +46,7 @@ public class AlbumLoader {
     }
 
     public List<Album> albumList(Context context) {
-        return getAlbums(context, makeCursor(context, null, null));
+        return getAlbums(makeCursor(context, null, null));
     }
 
     public Cursor makeCursor(Context context, String selection, String[] selectionArg) {

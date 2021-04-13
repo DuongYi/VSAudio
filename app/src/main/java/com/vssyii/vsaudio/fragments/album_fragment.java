@@ -46,7 +46,7 @@ public class album_fragment extends Fragment {
         protected String doInBackground(String... strings) {
 
             if (getActivity() != null) {
-                albumAdapter = new AlbumAdapter(getActivity(), new AlbumLoader().albumList(getActivity()));
+                albumAdapter = new AlbumAdapter(new AlbumLoader().albumList(getActivity()));
             }
             return "Executed";
         }

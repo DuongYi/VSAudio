@@ -1,8 +1,5 @@
 package com.vssyii.vsaudio.adapter;
 
-import android.content.ContentUris;
-import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +19,9 @@ import java.util.List;
 import static com.vssyii.vsaudio.adapter.SongAdapter.getImage;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AH> {
-   private Context context;
    private List<Album> albumList;
 
-    public AlbumAdapter(Context context, List<Album> albumList) {
-        this.context = context;
+    public AlbumAdapter( List<Album> albumList) {
         this.albumList = albumList;
     }
 
@@ -44,7 +39,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AH> {
             holder.albumName.setText(album.albumName);
             holder.albumArtist.setText(album.artistName);
             ImageLoader.getInstance().displayImage(getImage(album.id).toString(), holder.albumImg,
-                    new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.hp).resetViewBeforeLoading(true).build());
+                    new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.hp1).resetViewBeforeLoading(true).build());
         }
     }
 

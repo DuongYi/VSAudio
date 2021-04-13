@@ -25,7 +25,7 @@ public class SongLoader {
                 "duration",             //6
                 "track"                 //7
         };
-        String sortOrder = MediaStore.Audio.Media.DEFAULT_SORT_ORDER;
+        String sortOrder = MediaStore.Audio.Media.DISPLAY_NAME;
         Cursor cursor = context.getContentResolver().query(uri, projection,
                 null, null, sortOrder);
 

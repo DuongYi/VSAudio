@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/white"
+    android:id="@+id/artist_list"
+    android:layout_marginTop="0.7dp">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/artistImage"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/ic_launcher_background"
+        android:padding="5dp"
+        app:shapeAppearanceOverlay="@style/Circle"
+        android:scaleType="centerCrop"
+        android:elevation="8dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/WhiteSmoke" />
+
+    <TextView
+        android:id="@+id/artistName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/artistImage"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="3dp"
+        android:textColor="@color/black"
+        android:textSize="16dp"
+        android:maxLines = "1"
+        android:ellipsize = "end"/>
+
+    <TextView
+        android:id="@+id/totalSong"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below= "@+id/artistName"
+        android:layout_toEndOf="@+id/artistImage"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:text="1 songs"
+        android:maxLines = "1"
+        android:ellipsize = "end"/>
+
+</RelativeLayout>
