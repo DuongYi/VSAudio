@@ -7,13 +7,17 @@
     android:id="@+id/song_list"
     android:layout_marginTop="0.7dp">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/album_art"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/ic_launcher_background"
         android:padding="5dp"
-        />
+        app:shapeAppearanceOverlay="@style/Circle"
+        android:scaleType="centerCrop"
+        android:elevation="8dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="@color/WhiteSmoke" />
 
     <TextView
         android:id="@+id/song_name"
