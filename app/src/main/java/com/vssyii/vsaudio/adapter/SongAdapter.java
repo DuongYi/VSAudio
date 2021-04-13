@@ -37,12 +37,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.VH> {
         Song song = songList.get(position);
 
         if (song != null) {
-            if(song.title != null) {
-                holder.titl.setText(song.title);
-            }
-            else {
-                holder.titl.setText("Hello");
-            }
+            holder.titl.setText(song.title);
             holder.art.setText(song.artistName);
             ImageLoader.getInstance().displayImage(getImage(song.albumId).toString(), holder.imageView,
                     new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.jbl).resetViewBeforeLoading(true).build());

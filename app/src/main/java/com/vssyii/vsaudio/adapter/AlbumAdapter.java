@@ -1,17 +1,23 @@
 package com.vssyii.vsaudio.adapter;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.imageview.ShapeableImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.vssyii.vsaudio.R;
+import com.vssyii.vsaudio.fragments.albumDetails_fragment;
 import com.vssyii.vsaudio.models.Album;
 
 import java.util.List;
@@ -20,10 +26,13 @@ import static com.vssyii.vsaudio.adapter.SongAdapter.getImage;
 
 public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AH> {
    private List<Album> albumList;
+   private Activity context;
 
-    public AlbumAdapter( List<Album> albumList) {
+    public AlbumAdapter(Activity context, List<Album> albumList) {
+        this.context = context;
         this.albumList = albumList;
     }
+
 
     @NonNull
     @Override
@@ -48,8 +57,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AH> {
         return albumList!=null?albumList.size():0;
     }
 
-    public class AH extends RecyclerView.ViewHolder {
-        private ImageView albumImg;
+    public class AH extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        private ShapeableImageView albumImg;
         private TextView albumName;
         private TextView albumArtist;
 
@@ -59,6 +69,27 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AH> {
             albumImg = itemView.findViewById(R.id.albumImage);
             albumName = itemView.findViewById(R.id.albumName);
             albumArtist = itemView.findViewById(R.id.albumArtist);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            long albumId = albumList.get(getAdapterPosition()).id;
+
+            FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            Fragment fragment;
+
+            transaction.setCustomAnimations(R.anim.layout_fad_in, R.anim.layout_fad_out,
+                                            R.anim.layout_fad_in, R.anim.layout_fad_out);
+
+            fragment = albumDetails_fragment.newInstance(albumId);
+
+            transaction.hide(((AppCompatActivity)context).getSupportFragmentManager().findFragmentById(R.id.main_container));
+
+            transaction.add(R.id.main_container, fragment);
+            transaction.addToBackStack(null).commit();
         }
     }
 }

@@ -9,17 +9,14 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.vssyii.vsaudio.R;
 import com.vssyii.vsaudio.adapter.ArtistAdapter;
-import com.vssyii.vsaudio.adapter.GridSpacingItemDecoration;
-import com.vssyii.vsaudio.adapter.SongAdapter;
 import com.vssyii.vsaudio.dataload.ArtistLoader;
-import com.vssyii.vsaudio.dataload.SongLoader;
+
 
 public class artist_fragment extends Fragment {
 
@@ -45,7 +42,7 @@ public class artist_fragment extends Fragment {
         protected String doInBackground(String... strings) {
 
             if (getActivity() != null) {
-                artistAdapter = new ArtistAdapter(new ArtistLoader().artistList(getActivity()));
+                artistAdapter = new ArtistAdapter(getActivity(), new ArtistLoader().artistList(getActivity()));
             }
             return "Executed";
         }

@@ -1,5 +1,6 @@
 package com.vssyii.vsaudio.adapter;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,10 +22,13 @@ import static com.vssyii.vsaudio.adapter.SongAdapter.getImage;
 public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ARV> {
 
     private List<Artist> artistList;
+    private Activity context;
 
-    public ArtistAdapter(List<Artist> artistList) {
+    public ArtistAdapter(Activity context, List<Artist> artistList) {
+        this.context = context;
         this.artistList = artistList;
     }
+
 
     @NonNull
     @Override

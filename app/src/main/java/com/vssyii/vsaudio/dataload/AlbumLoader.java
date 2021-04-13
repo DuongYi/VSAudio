@@ -30,7 +30,7 @@ public class AlbumLoader {
 
     public Album getAlbum(Context context, long id ) {
 
-        return  album(makeCursor(context, "id=?", new String[]{String.valueOf(id)}));
+        return  album(makeCursor(context, "_id=?", new String[]{String.valueOf(id)}));
     }
 
     private Album album(Cursor cursor) {

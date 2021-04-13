@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.slidingpanelayout.widget.SlidingPaneLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import android.Manifest;
@@ -18,10 +21,13 @@ import android.widget.Toast;
 import com.google.android.material.tabs.TabLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.sothree.slidinguppanel.SlidingUpPanelLayout;
 import com.vssyii.vsaudio.adapter.ViewPagerAdapter;
 import com.vssyii.vsaudio.dataload.SongLoader;
+import com.vssyii.vsaudio.fragments.albumDetails_fragment;
 import com.vssyii.vsaudio.fragments.album_fragment;
 import com.vssyii.vsaudio.fragments.artist_fragment;
+import com.vssyii.vsaudio.fragments.main_fragment;
 import com.vssyii.vsaudio.fragments.songs_fragment;
 import com.vssyii.vsaudio.models.Song;
 
@@ -30,6 +36,7 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE = 1;
+    private SlidingUpPanelLayout panelLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,24 +71,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initViewPager() {
-
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(this));
-        TabLayout tabLayout = findViewById(R.id.tab_layout);
-        ViewPager viewPager = findViewById(R.id.view_pager);
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        viewPagerAdapter.AddFragments(new songs_fragment(), "Songs");
-        viewPagerAdapter.AddFragments(new artist_fragment(), "artist");
-        viewPagerAdapter.AddFragments(new album_fragment(), "album");
+        panelLayout = findViewById(R.id.sliding_layout);
 
-        viewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-
-        List<Song> songList = new SongLoader().getAllSongs(this);
-
-        for (Song song : songList) {
-            Log.d("Path:" , "Name" + song.title);
-        }
+        Fragment fragment = new main_fragment();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_container, fragment);
+        transaction.commit();
     }
 
 
