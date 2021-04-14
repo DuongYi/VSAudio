@@ -22,14 +22,8 @@ import com.google.android.material.tabs.TabLayout;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.sothree.slidinguppanel.SlidingUpPanelLayout;
-import com.vssyii.vsaudio.adapter.ViewPagerAdapter;
-import com.vssyii.vsaudio.dataload.SongLoader;
-import com.vssyii.vsaudio.fragments.albumDetails_fragment;
-import com.vssyii.vsaudio.fragments.album_fragment;
-import com.vssyii.vsaudio.fragments.artist_fragment;
 import com.vssyii.vsaudio.fragments.main_fragment;
-import com.vssyii.vsaudio.fragments.songs_fragment;
-import com.vssyii.vsaudio.models.Song;
+
 
 import java.util.List;
 

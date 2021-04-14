@@ -4,15 +4,20 @@ import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.imageview.ShapeableImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.vssyii.vsaudio.R;
+import com.vssyii.vsaudio.fragments.artistDetails_fragment;
 import com.vssyii.vsaudio.models.Artist;
 
 import java.util.List;
@@ -60,9 +65,9 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ARV> {
         return artistList!=null?artistList.size():0;
     }
 
-    public class ARV extends RecyclerView.ViewHolder {
+    public class ARV extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ImageView artistImage;
+        private ShapeableImageView artistImage;
         private TextView artistName;
         private TextView totalSongs;
 
@@ -72,6 +77,27 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ARV> {
             artistImage = itemView.findViewById(R.id.artistImage);
             artistName = itemView.findViewById(R.id.artistName);
             totalSongs = itemView.findViewById(R.id.totalSong);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+
+            long artistId = artistList.get(getAdapterPosition()).id;
+
+            FragmentManager fragmentManager = ((AppCompatActivity)context).getSupportFragmentManager();
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            Fragment fragment;
+
+            transaction.setCustomAnimations(R.anim.layout_fad_in, R.anim.layout_fad_out,
+                    R.anim.layout_fad_in, R.anim.layout_fad_out);
+
+            fragment = artistDetails_fragment.newInstance(artistId);
+
+            transaction.hide(((AppCompatActivity)context).getSupportFragmentManager().findFragmentById(R.id.main_container));
+
+            transaction.add(R.id.main_container, fragment);
+            transaction.addToBackStack(null).commit();
         }
     }
 }

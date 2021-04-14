@@ -1,11 +1,7 @@
 package com.vssyii.vsaudio.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -24,10 +20,10 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.vssyii.vsaudio.R;
-import com.vssyii.vsaudio.adapter.AlbumSongAdapter;
-import com.vssyii.vsaudio.dataload.AlbumLoader;
-import com.vssyii.vsaudio.dataload.AlbumSongLoader;
-import com.vssyii.vsaudio.models.Album;
+import com.vssyii.vsaudio.adapter.ArtistSongAdapter;
+import com.vssyii.vsaudio.dataload.ArtistLoader;
+import com.vssyii.vsaudio.dataload.ArtistSongLoader;
+import com.vssyii.vsaudio.models.Artist;
 import com.vssyii.vsaudio.models.Song;
 
 import java.util.ArrayList;
@@ -36,23 +32,23 @@ import java.util.List;
 import static com.vssyii.vsaudio.adapter.SongAdapter.getImage;
 
 
-public class albumDetails_fragment extends Fragment {
+public class artistDetails_fragment extends Fragment {
 
     private CollapsingToolbarLayout collapsingToolbarLayout;
-    private long album_id;
+    private long artist_id;
 
     private List<Song> songList = new ArrayList<>();
-    private Album album;
-    private ImageView collapsingAlbumBg;
+    private Artist artist;
+    private ImageView collapsingArtistBg;
     private RecyclerView recyclerView;
-    private AlbumSongAdapter albumSongAdapter;
+    private ArtistSongAdapter artistSongAdapter;
     private Toolbar toolbar;
 
-    public static albumDetails_fragment newInstance(long id) {
+    public static artistDetails_fragment newInstance(long id) {
 
         Bundle args = new Bundle();
         args.putLong("_ID", id);
-        albumDetails_fragment fragment = new albumDetails_fragment();
+        artistDetails_fragment fragment = new artistDetails_fragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,7 +56,7 @@ public class albumDetails_fragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 
-        album_id = getArguments().getLong("_ID");
+        artist_id = getArguments().getLong("_ID");
 
         super.onCreate(savedInstanceState);
     }
@@ -69,36 +65,36 @@ public class albumDetails_fragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.albumdetails_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.artistdetails_fragment, container, false);
 
-        collapsingAlbumBg = rootView.findViewById(R.id.collapsingAlbumBg);
-        collapsingToolbarLayout = rootView.findViewById(R.id.collapsingAlbumLayout);
+        collapsingArtistBg = rootView.findViewById(R.id.collapsingArtistBg);
+        collapsingToolbarLayout = rootView.findViewById(R.id.collapsingArtistLayout);
         toolbar = rootView.findViewById(R.id.toolbar);
-        recyclerView = rootView.findViewById(R.id.collapsingAlbumRecyclerView);
+        recyclerView = rootView.findViewById(R.id.collapsingArtistRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        album = new AlbumLoader().getAlbum(getActivity(), album_id);
+        artist = new ArtistLoader().getArtist(getActivity(), artist_id);
         setDetail();
-        setAlbumList();
+        setArtistList();
         initToolbar();
         return rootView;
     }
 
-    private void setAlbumList() {
-        songList = AlbumSongLoader.getAllAlbumSongs(getActivity(), album_id);
-        albumSongAdapter = new AlbumSongAdapter(getActivity(), songList);
-        recyclerView.setAdapter(albumSongAdapter);
+    private void setArtistList() {
+        songList = ArtistSongLoader.getAllArtistSongs(getActivity(), artist_id);
+        artistSongAdapter = new ArtistSongAdapter(getActivity(), songList);
+        recyclerView.setAdapter(artistSongAdapter);
     }
 
     private void setDetail() {
         String totalSong ="";
-        if(album.numSong > 1) {
-            totalSong = album.numSong + " songs";
+        if(artist.songCount > 1) {
+            totalSong = artist.songCount + " songs";
         }
-        else totalSong = album.numSong + " song";
-        collapsingToolbarLayout.setTitle(album.albumName + " - " + totalSong);
-        ImageLoader.getInstance().displayImage(getImage(album.id).toString(), collapsingAlbumBg,
-                new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.hp1).resetViewBeforeLoading(true).build());
+        else totalSong = artist.songCount + " song";
+        collapsingToolbarLayout.setTitle(artist.artName + " - " + totalSong);
+        ImageLoader.getInstance().displayImage(getImage(artist.id).toString(), collapsingArtistBg,
+                new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.unknowart).resetViewBeforeLoading(true).build());
     }
 
     private void initToolbar() {
@@ -106,7 +102,7 @@ public class albumDetails_fragment extends Fragment {
         if(((AppCompatActivity)getActivity()).getSupportActionBar() != null) {
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        toolbar.setOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getActivity(), "This is back button", Toast.LENGTH_SHORT).show();;

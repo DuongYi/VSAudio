@@ -15,8 +15,8 @@
             android:id="@+id/more"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:padding="15dp"
-            android:src="@drawable/st"/>
+            android:padding="10dp"
+            android:src="@drawable/more"/>
 
         <EditText
             android:id="@+id/searchBar"

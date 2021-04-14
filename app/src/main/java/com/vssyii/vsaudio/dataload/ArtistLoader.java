@@ -29,7 +29,7 @@ public class ArtistLoader {
 
     public Artist getArtist(Context context, long id ) {
 
-        return  artist(makeCursor(context, "id=?", new String[]{String.valueOf(id)}));
+        return  artist(makeCursor(context, "_id=?", new String[]{String.valueOf(id)}));
     }
 
     private Artist artist(Cursor cursor) {
