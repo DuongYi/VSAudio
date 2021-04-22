@@ -55,7 +55,7 @@
         android:layout_marginBottom="450dp"
         android:backgroundTint="#BAEF3333"
         android:src="@android:drawable/ic_media_play"
-        app:layout_anchor="@id/collapsingAlbumLayout"
+        app:layout_anchor="@id/appBarLayout"
         app:layout_anchorGravity="bottom|end" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
