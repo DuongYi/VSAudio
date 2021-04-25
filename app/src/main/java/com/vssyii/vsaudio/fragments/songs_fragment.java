@@ -15,12 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.vssyii.vsaudio.R;
 import com.vssyii.vsaudio.adapter.SongAdapter;
 import com.vssyii.vsaudio.dataload.SongLoader;
+import com.vssyii.vsaudio.models.Song;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class songs_fragment extends Fragment {
 
     private SongAdapter songAdapter;
     private RecyclerView recyclerView;
+    public static List<Song> songList;
 
     @Nullable
     @Override
@@ -41,7 +46,8 @@ public class songs_fragment extends Fragment {
         protected String doInBackground(String... strings) {
 
             if (getActivity() != null) {
-                songAdapter = new SongAdapter(new SongLoader().getAllSongs(getActivity()));
+                songList = new SongLoader().getAllSongs(getActivity());
+                songAdapter = new SongAdapter(getContext(), songList);
             }
             return "Executed";
         }

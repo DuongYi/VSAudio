@@ -16,14 +16,15 @@ public class SongLoader {
 
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         String[] projection = new String[] {
-                "_id",                   //0
-                "title",                //1
-                "album_id",             //2
-                "album",                //3
-                "artist_id",            //4
-                "artist",               //5
-                "duration",             //6
-                "track"                 //7
+                MediaStore.Audio.Media._ID,//0
+                MediaStore.Audio.Media.TITLE,//1
+                MediaStore.Audio.Media.ALBUM_ID,//6
+                MediaStore.Audio.Media.ALBUM,//2
+                MediaStore.Audio.Media.ARTIST_ID,//3
+                MediaStore.Audio.Media.ARTIST,//4
+                MediaStore.Audio.Media.DURATION,//5
+                MediaStore.Audio.Media.TRACK,//6
+                MediaStore.Audio.Media.DATA//6
         };
         String sortOrder = MediaStore.Audio.Media.DISPLAY_NAME;
         Cursor cursor = context.getContentResolver().query(uri, projection,
@@ -38,7 +39,8 @@ public class SongLoader {
                                     cursor.getLong(4),
                                     cursor.getString(5),
                                     cursor.getInt(6),
-                                    cursor.getInt(7)));
+                                    cursor.getInt(7),
+                                    cursor.getString(8)));
             }
             while (cursor.moveToNext());
 

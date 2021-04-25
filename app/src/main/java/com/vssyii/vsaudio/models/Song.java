@@ -10,6 +10,7 @@ public class Song {
     public final String artistName;
     public final int duration;
     public final int trackNumber;
+    public final String path;
 
     public Song() {
         id = -1;
@@ -20,9 +21,10 @@ public class Song {
         artistName = "";
         duration = -1;
         trackNumber = -1;
+        path = "";
     }
 
-    public Song(long id, String title, long albumId, String albumName, long artistId, String artistName, int duration, int trackNumber) {
+    public Song(long id, String title, long albumId, String albumName, long artistId, String artistName, int duration, int trackNumber, String path) {
         this.id = id;
         this.title = title;
         this.albumId = albumId;
@@ -31,5 +33,6 @@ public class Song {
         this.artistName = artistName;
         this.duration = duration;
         this.trackNumber = trackNumber;
+        this.path = path;
     }
 }

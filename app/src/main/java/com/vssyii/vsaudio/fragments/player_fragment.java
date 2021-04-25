@@ -18,7 +18,7 @@ public class player_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.player_fragment, container, false);
+        View view = inflater.inflate(R.layout.player_activity, container, false);
         top_container = view.findViewById(R.id.top_container);
 
         return view;

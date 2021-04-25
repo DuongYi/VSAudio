@@ -37,7 +37,7 @@ public class AlbumSongLoader {
                     trackNumber -= 1000;
                 }
                 albumSongList.add(new Song(cursor.getLong(0), cursor.getString(1),_id, cursor.getString(2),
-                        cursor.getLong(3),cursor.getString(4), cursor.getInt(5),trackNumber));
+                        cursor.getLong(3),cursor.getString(4), cursor.getInt(5),trackNumber, cursor.getString(6)));
             }
             while (cursor.moveToNext());
 

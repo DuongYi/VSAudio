@@ -1,18 +1,22 @@
 package com.vssyii.vsaudio.adapter;
 
 import android.content.ContentUris;
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.vssyii.vsaudio.PlayerActivity;
 import com.vssyii.vsaudio.R;
 import com.vssyii.vsaudio.models.Song;
 
@@ -21,8 +25,10 @@ import java.util.List;
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.VH> {
 
     private List<Song> songList;
+    private Context context;
 
-    public SongAdapter(List<Song> songList) {
+    public SongAdapter(Context context, List<Song> songList) {
+        this.context = context;
         this.songList = songList;
     }
 
@@ -42,6 +48,15 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.VH> {
             ImageLoader.getInstance().displayImage(getImage(song.albumId).toString(), holder.imageView,
                     new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.jbl).resetViewBeforeLoading(true).build());
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PlayerActivity.class);
+                intent.putExtra("position", position);
+                context.startActivity(intent);
+            }
+        });
     }
 
     public static Uri getImage(long albumId) {
