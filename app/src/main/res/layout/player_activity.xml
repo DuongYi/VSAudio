@@ -111,6 +111,9 @@
 
         <SeekBar
             android:id="@+id/seekBar"
+            android:thumbTint="#6A6767"
+            android:progressBackgroundTint="#837F7F"
+            android:progressTint="#6A6767"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
