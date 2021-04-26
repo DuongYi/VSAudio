@@ -79,14 +79,12 @@
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/player_bg"
-            android:layout_width="320dp"
-            android:layout_height="350dp"
+            android:layout_width="334dp"
+            android:layout_height="360dp"
             android:src="@drawable/hp1"
             android:scaleType="centerCrop"
             android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"
-            app:shapeAppearanceOverlay="@style/RoundSquare"/>
-
+            android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 
@@ -135,29 +133,29 @@
 
         <ImageView
             android:id="@+id/player_btPlay"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_centerHorizontal="true"
             android:src="@drawable/play_button" />
 
         <ImageView
             android:id="@+id/player_btPrevious"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
             android:layout_toLeftOf="@+id/player_btPlay"
             android:layout_centerHorizontal="true"
             android:layout_marginEnd="60dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:src="@drawable/back"/>
 
         <ImageView
             android:id="@+id/player_btNext"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="47dp"
+            android:layout_height="47dp"
             android:layout_toRightOf="@+id/player_btPlay"
             android:layout_centerHorizontal="true"
             android:layout_marginStart="55dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:src="@drawable/next"/>
 
 
