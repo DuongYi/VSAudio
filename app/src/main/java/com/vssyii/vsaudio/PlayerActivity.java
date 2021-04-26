@@ -1,7 +1,13 @@
 package com.vssyii.vsaudio;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.palette.graphics.Palette;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.media.MediaMetadataRetriever;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -10,6 +16,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -319,10 +326,45 @@ public class PlayerActivity extends AppCompatActivity {
     private void metaData(Uri uri) {
         MediaMetadataRetriever retriever = new MediaMetadataRetriever();
         retriever.setDataSource(uri.toString());
+        Bitmap bitmap;
+        byte[] art = retriever.getEmbeddedPicture();
         durationTotal.setText(fommatedTime(listSongs.get(position).duration/1000));
 
         ImageLoader.getInstance().displayImage(getImage(listSongs.get(position).albumId).toString(), player_bg,
                 new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.unknown).resetViewBeforeLoading(true).build());
+
+        bitmap = BitmapFactory.decodeByteArray(art, 0 , art.length);
+        Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(@Nullable Palette palette) {
+                Palette.Swatch swatch = palette.getDominantSwatch();
+                if (swatch != null) {
+                    ImageView player_bgGradian = findViewById(R.id.playerBgGradian);
+                    RelativeLayout playerFragment = findViewById(R.id.playerFragment);
+                    player_bgGradian.setBackgroundResource(R.drawable.gradian_bg);
+                    playerFragment.setBackgroundResource(R.drawable.player_bg);
+                    GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                            new int[]{swatch.getRgb(), 0x00000000});
+                    player_bgGradian.setBackground(gradientDrawable);
+                    GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                            new int[]{0x00000000, 0xff5c5c5c, swatch.getRgb(), swatch.getRgb()});
+                    player_bgGradian.setBackground(gradientDrawableBg);
+                }
+                else {
+                    ImageView player_bgGradian = findViewById(R.id.playerBgGradian);
+                    RelativeLayout playerFragment = findViewById(R.id.playerFragment);
+                    player_bgGradian.setBackgroundResource(R.drawable.gradian_bg);
+                    playerFragment.setBackgroundResource(R.drawable.player_bg);
+                    GradientDrawable gradientDrawable = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                            new int[]{0xff000000 , 0x00000000});
+                    player_bgGradian.setBackground(gradientDrawable);
+                    GradientDrawable gradientDrawableBg = new GradientDrawable(GradientDrawable.Orientation.BOTTOM_TOP,
+                            new int[]{0xff000000, 0xff000000});
+                    player_bgGradian.setBackground(gradientDrawableBg);
+
+                }
+            }
+        });
 
     }
 }
