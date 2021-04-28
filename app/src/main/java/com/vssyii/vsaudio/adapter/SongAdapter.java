@@ -70,7 +70,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.VH> {
 
     public class VH extends RecyclerView.ViewHolder {
 
-        private ImageView imageView;
+        private ImageView imageView, menu_musicAction;
         private TextView titl, art;
 
         public VH(@NonNull View itemView) {
@@ -79,6 +79,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.VH> {
             imageView = itemView.findViewById(R.id.album_art);
             titl = itemView.findViewById(R.id.song_name);
             art = itemView.findViewById(R.id.artist_name);
+            menu_musicAction = imageView.findViewById(R.id.music_action);
         }
     }
 }

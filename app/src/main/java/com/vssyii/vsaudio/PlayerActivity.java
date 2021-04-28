@@ -23,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -33,7 +34,11 @@ import com.vssyii.vsaudio.models.Song;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
+import static com.vssyii.vsaudio.MainActivity.likeBoolean;
+import static com.vssyii.vsaudio.MainActivity.repeatBoolean;
+import static com.vssyii.vsaudio.MainActivity.shuffleBoolean;
 import static com.vssyii.vsaudio.adapter.SongAdapter.getImage;
 import static com.vssyii.vsaudio.fragments.songs_fragment.songList;
 
@@ -92,6 +97,68 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             }
         });
 
+        //Random
+        player_btRandom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (shuffleBoolean == 1) {
+                    shuffleBoolean = 2;
+                    player_btRandom.setImageResource(R.drawable.shuffle_onclick);
+                    return;
+                }
+                else {
+                    shuffleBoolean = 1;
+                    player_btRandom.setImageResource(R.drawable.random_button);
+                    return;
+                }
+            }
+        });
+        //Repeat
+        player_btRepeat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(repeatBoolean == 1) {
+                    repeatBoolean = 2;
+                    player_btRepeat.setImageResource(R.drawable.repeat_onclick);
+                    return;
+                }
+                if(repeatBoolean == 2) {
+                    repeatBoolean = 3;
+                    player_btRepeat.setImageResource(R.drawable.repeat_onclick1);
+                    return;
+                }
+                if(repeatBoolean == 3) {
+                    repeatBoolean = 1;
+                    player_btRepeat.setImageResource(R.drawable.repeat);
+                    return;
+                }
+            }
+        });
+        //Like
+        player_btLike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (likeBoolean == 1) {
+                    likeBoolean = 2;
+                    player_btLike.setImageResource(R.drawable.like_onclick);
+                    Toast.makeText(getApplicationContext(), "Loved", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else {
+                    likeBoolean = 1;
+                    player_btLike.setImageResource(R.drawable.bt_like);
+                    return;
+                }
+            }
+        });
+        //AddOnPlaylist
+        player_btAddPlayList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "Add on My Music playlist", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        });
 
     }
 
@@ -124,7 +191,20 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         if(mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
-            position = ((position + 1) % listSongs.size());
+
+            if(shuffleBoolean == 2 && repeatBoolean != 3) {
+                position = getRandom(10);
+            }
+            else if (shuffleBoolean == 1 && repeatBoolean == 1 ) {
+                position = ((position + 1) % listSongs.size());
+            }
+            else if (repeatBoolean == 2) {
+                position = ((position + 1) % listSongs.size());
+                if(position == listSongs.size() - 1) {
+                    position = 0;
+                }
+            }
+
             uri = Uri.parse(listSongs.get(position).path);
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -147,7 +227,20 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         else {
             mediaPlayer.stop();
             mediaPlayer.release();
-            position = ((position + 1) % listSongs.size());
+
+            if(shuffleBoolean == 2 && repeatBoolean != 3) {
+                position = getRandom(listSongs.size() - 1);
+            }
+            else if (shuffleBoolean == 1 && repeatBoolean == 1 || repeatBoolean == 2) {
+                position = ((position + 1) % listSongs.size());
+            }
+            else if (repeatBoolean == 2) {
+                position = ((position + 1) % listSongs.size());
+                if(position == listSongs.size() - 1) {
+                    position = 0;
+                }
+            }
+
             uri = Uri.parse(listSongs.get(position).path);
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -189,7 +282,14 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         if(mediaPlayer.isPlaying()) {
             mediaPlayer.stop();
             mediaPlayer.release();
-            position = ((position - 1) < 0 ? (listSongs.size() - 1) : (position - 1));
+
+            if(shuffleBoolean == 2 && repeatBoolean != 3) {
+                position = getRandom(listSongs.size() - 1);
+            }
+            else if (shuffleBoolean == 1 && repeatBoolean == 1 || repeatBoolean == 2) {
+                position = ((position - 1) < 0 ? (listSongs.size() - 1) : (position - 1));
+            }
+
             uri = Uri.parse(listSongs.get(position).path);
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -212,7 +312,14 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         else {
             mediaPlayer.stop();
             mediaPlayer.release();
-            position = ((position - 1) < 0 ? (listSongs.size() - 1) : (position - 1));
+
+            if(shuffleBoolean == 2 && repeatBoolean != 3) {
+                position = getRandom(listSongs.size() - 1);
+            }
+            else if (shuffleBoolean == 1 && repeatBoolean == 1 || repeatBoolean == 2) {
+                position = ((position - 1) < 0 ? (listSongs.size() - 1) : (position - 1));
+            }
+
             uri = Uri.parse(listSongs.get(position).path);
             mediaPlayer = MediaPlayer.create(getApplicationContext(), uri);
             metaData(uri);
@@ -426,5 +533,10 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             mediaPlayer.start();
             mediaPlayer.setOnCompletionListener(this);
         }
+    }
+
+    private int getRandom(int i) {
+        Random random = new Random();
+        return random.nextInt(i + 1);
     }
 }
