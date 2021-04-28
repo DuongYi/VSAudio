@@ -27,8 +27,9 @@ public class SongLoader {
                 MediaStore.Audio.Media.DATA//6
         };
         String sortOrder = MediaStore.Audio.Media.DISPLAY_NAME;
+        String selection = "is_music=1";
         Cursor cursor = context.getContentResolver().query(uri, projection,
-                null, null, sortOrder);
+                selection, null, sortOrder);
 
         if (cursor != null && cursor.moveToFirst()) {
             do {

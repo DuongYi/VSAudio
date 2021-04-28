@@ -108,13 +108,11 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             public void onClick(View v) {
                 if (shuffleBoolean == 1) {
                     shuffleBoolean = 2;
-                    mediaPlayer.setLooping(false);
                     player_btRandom.setImageResource(R.drawable.shuffle_onclick);
                     return;
                 }
                 else {
                     shuffleBoolean = 1;
-                    mediaPlayer.setLooping(false);
                     player_btRandom.setImageResource(R.drawable.random_button);
                     return;
                 }
@@ -126,19 +124,16 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             public void onClick(View v) {
                 if(repeatBoolean == 1) {
                     repeatBoolean = 2;
-                    mediaPlayer.setLooping(false);
                     player_btRepeat.setImageResource(R.drawable.repeat_onclick);
                     return;
                 }
                 if(repeatBoolean == 2) {
                     repeatBoolean = 3;
-                    mediaPlayer.setLooping(true);
                     player_btRepeat.setImageResource(R.drawable.repeat_onclick1);
                     return;
                 }
                 if(repeatBoolean == 3) {
                     repeatBoolean = 1;
-                    mediaPlayer.setLooping(false);
                     player_btRepeat.setImageResource(R.drawable.repeat);
                     return;
                 }
@@ -203,16 +198,10 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             mediaPlayer.release();
 
             if(shuffleBoolean == 2 && repeatBoolean != 3) {
-                position = getRandom(10);
+                position = getRandom(listSongs.size() - 1);
             }
-            else if (shuffleBoolean == 1 ) {
+            else if (shuffleBoolean == 1 && shuffleBoolean == 1 && repeatBoolean == 1 || repeatBoolean == 2 ) {
                 position = ((position + 1) % listSongs.size());
-            }
-            else if (repeatBoolean == 2) {
-                position = ((position + 1) % listSongs.size());
-                if(position == listSongs.size() - 1) {
-                    position = 0;
-                }
             }
 
             uri = Uri.parse(listSongs.get(position).path);
@@ -230,24 +219,20 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
                     }
                 }
             });
+
             mediaPlayer.setOnCompletionListener(this);
             mediaPlayer.start();
+
         }
         else {
             mediaPlayer.stop();
             mediaPlayer.release();
 
             if(shuffleBoolean == 2 && repeatBoolean != 3) {
-                position = getRandom(10);
+                position = getRandom(listSongs.size() - 1);
             }
-            else if (shuffleBoolean == 1 ) {
+            else if (shuffleBoolean == 1 && repeatBoolean == 1 || repeatBoolean == 2 ) {
                 position = ((position + 1) % listSongs.size());
-            }
-            else if (repeatBoolean == 2) {
-                position = ((position + 1) % listSongs.size());
-                if(position == listSongs.size() - 1) {
-                    position = 0;
-                }
             }
 
             uri = Uri.parse(listSongs.get(position).path);
@@ -292,9 +277,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             mediaPlayer.release();
 
             if(shuffleBoolean == 2 && repeatBoolean != 3) {
-                position = getRandom(10);
+                position = getRandom(listSongs.size() - 1);
             }
-            else if (shuffleBoolean == 1) {
+            else if (shuffleBoolean == 1 && repeatBoolean == 1 || repeatBoolean == 2) {
                 position = ((position - 1) < 0 ? (listSongs.size() - 1) : (position - 1));
             }
 
@@ -321,9 +306,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             mediaPlayer.release();
 
             if(shuffleBoolean == 2 && repeatBoolean != 3) {
-                position = getRandom(10);
+                position = getRandom(listSongs.size() - 1);
             }
-            else if (shuffleBoolean == 1) {
+            else if (shuffleBoolean == 1 && repeatBoolean == 1 || repeatBoolean == 2) {
                 position = ((position - 1) < 0 ? (listSongs.size() - 1) : (position - 1));
             }
 
