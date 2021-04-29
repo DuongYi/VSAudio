@@ -24,7 +24,7 @@ public class SongLoader {
                 MediaStore.Audio.Media.ARTIST,//4
                 MediaStore.Audio.Media.DURATION,//5
                 MediaStore.Audio.Media.TRACK,//6
-                MediaStore.Audio.Media.DATA//6
+                MediaStore.Audio.Media.DATA//7
         };
         String sortOrder = MediaStore.Audio.Media.DISPLAY_NAME;
         String selection = "is_music=1";

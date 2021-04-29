@@ -41,7 +41,7 @@ public class albumDetails_fragment extends Fragment {
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private long album_id;
 
-    private List<Song> songList = new ArrayList<>();
+    private List<Song> aSongList = new ArrayList<>();
     private Album album;
     private ImageView collapsingAlbumBg;
     private RecyclerView recyclerView;
@@ -85,8 +85,8 @@ public class albumDetails_fragment extends Fragment {
     }
 
     private void setAlbumList() {
-        songList = AlbumSongLoader.getAllAlbumSongs(getActivity(), album_id);
-        albumSongAdapter = new AlbumSongAdapter(getActivity(), songList);
+        aSongList = AlbumSongLoader.getAllAlbumSongs(getActivity(), album_id);
+        albumSongAdapter = new AlbumSongAdapter(getActivity(), aSongList);
         recyclerView.setAdapter(albumSongAdapter);
     }
 

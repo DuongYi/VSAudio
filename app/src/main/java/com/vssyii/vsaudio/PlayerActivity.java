@@ -39,6 +39,8 @@ import java.util.Random;
 import static com.vssyii.vsaudio.MainActivity.likeBoolean;
 import static com.vssyii.vsaudio.MainActivity.repeatBoolean;
 import static com.vssyii.vsaudio.MainActivity.shuffleBoolean;
+import static com.vssyii.vsaudio.adapter.AlbumSongAdapter.albumSongList;
+import static com.vssyii.vsaudio.adapter.ArtistSongAdapter.artistSongList;
 import static com.vssyii.vsaudio.adapter.SongAdapter.getImage;
 import static com.vssyii.vsaudio.fragments.songs_fragment.songList;
 
@@ -66,12 +68,11 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         getIntentMethod();
         player_tvTitle.setText(listSongs.get(position).title);
         player_tvArtistName.setText(listSongs.get(position).artistName);
-        if(mediaPlayer != null) {
+
+        if (mediaPlayer != null) {
             mediaPlayer.setOnCompletionListener(this);
         }
-        else {
-            Toast.makeText(getApplicationContext(), "Can't play song", Toast.LENGTH_LONG).show();
-        }
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -395,10 +396,20 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
 
     private void getIntentMethod() {
         position = getIntent().getIntExtra("position", -1);
-        listSongs = songList;
+        String sender = getIntent().getStringExtra("sender");
+        if (sender != null && sender.equals("AlbumSongAdapter")) {
+            listSongs = albumSongList;
+        }
+        else if(sender != null && sender.equals("ArtistSongAdapter")) {
+            listSongs = artistSongList;
+        }
+        else {
+            listSongs = songList;
+        }
+
         if(listSongs != null) {
             player_btPlay.setImageResource(R.drawable.pause);
-            Log.i("FORMAT_URI",listSongs.get(position).path);
+            Log.i("FORMAT_URI","" + listSongs.get(position).path);
             uri = Uri.parse(listSongs.get(position).path);
         }
         if(mediaPlayer != null) {
@@ -410,6 +421,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
 
         seekBar.setMax(mediaPlayer.getDuration()/1000);
         metaData(uri);
+
+
+
     }
 
     private void initPlayerViews() {

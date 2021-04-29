@@ -1,6 +1,7 @@
 package com.vssyii.vsaudio.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.vssyii.vsaudio.PlayerActivity;
 import com.vssyii.vsaudio.R;
 import com.vssyii.vsaudio.models.Song;
 
@@ -16,7 +18,7 @@ import java.util.List;
 
 public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.ASVH> {
 
-    private List<Song> albumSongList;
+    public static List<Song> albumSongList;
     private Activity context;
 
     public AlbumSongAdapter(Activity context, List<Song> albumSongList) {
@@ -39,6 +41,16 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.ASVH
             holder.albumSongTitle.setText(song.title);
             holder.albumSongArt.setText(song.artistName);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PlayerActivity.class);
+                intent.putExtra("sender", "AlbumSongAdapter");
+                intent.putExtra("position", position);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
