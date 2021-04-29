@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.vssyii.vsaudio.R;
@@ -43,6 +44,7 @@ public class artistDetails_fragment extends Fragment {
     private RecyclerView recyclerView;
     private ArtistSongAdapter artistSongAdapter;
     private Toolbar toolbar;
+    public static FloatingActionButton artistPlayButtonShuffle;
 
     public static artistDetails_fragment newInstance(long id) {
 
@@ -70,6 +72,7 @@ public class artistDetails_fragment extends Fragment {
         collapsingArtistBg = rootView.findViewById(R.id.collapsingArtistBg);
         collapsingToolbarLayout = rootView.findViewById(R.id.collapsingArtistLayout);
         toolbar = rootView.findViewById(R.id.toolbar);
+        artistPlayButtonShuffle = rootView.findViewById(R.id.btArtistPlay);
         recyclerView = rootView.findViewById(R.id.collapsingArtistRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

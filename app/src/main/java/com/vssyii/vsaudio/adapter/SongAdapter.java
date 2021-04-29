@@ -79,8 +79,6 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.VH> {
                             break;
                         case R.id.share:
                             Toast.makeText(context, "Shared", Toast.LENGTH_SHORT).show();
-
-
                     }
                     return true;
                 });

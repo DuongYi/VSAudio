@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -29,6 +30,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.vssyii.vsaudio.MusicAction.musicAction;
 import com.vssyii.vsaudio.dataload.SongLoader;
 import com.vssyii.vsaudio.models.Song;
 
@@ -68,6 +70,8 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
         getIntentMethod();
         player_tvTitle.setText(listSongs.get(position).title);
         player_tvArtistName.setText(listSongs.get(position).artistName);
+
+        new musicAction(btSetting, getApplicationContext()).createAction(songList, position);
 
         if (mediaPlayer != null) {
             mediaPlayer.setOnCompletionListener(this);
@@ -210,6 +214,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             metaData(uri);
             player_tvTitle.setText(listSongs.get(position).title);
             player_tvArtistName.setText(listSongs.get(position).artistName);
+
+            new musicAction(btSetting, getApplicationContext()).createAction(songList, position);
+
             seekBar.setMax(mediaPlayer.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
@@ -241,6 +248,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             metaData(uri);
             player_tvTitle.setText(listSongs.get(position).title);
             player_tvArtistName.setText(listSongs.get(position).artistName);
+
+            new musicAction(btSetting, getApplicationContext()).createAction(songList, position);
+
             seekBar.setMax(mediaPlayer.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
@@ -289,6 +299,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             metaData(uri);
             player_tvTitle.setText(listSongs.get(position).title);
             player_tvArtistName.setText(listSongs.get(position).artistName);
+
+            new musicAction(btSetting, getApplicationContext()).createAction(songList, position);
+
             seekBar.setMax(mediaPlayer.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override
@@ -318,6 +331,9 @@ public class PlayerActivity extends AppCompatActivity implements MediaPlayer.OnC
             metaData(uri);
             player_tvTitle.setText(listSongs.get(position).title);
             player_tvArtistName.setText(listSongs.get(position).artistName);
+
+            new musicAction(btSetting, getApplicationContext()).createAction(songList, position);
+
             seekBar.setMax(mediaPlayer.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
                 @Override

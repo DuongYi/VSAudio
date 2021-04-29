@@ -1,5 +1,6 @@
 package com.vssyii.vsaudio.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -21,8 +22,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.vssyii.vsaudio.PlayerActivity;
 import com.vssyii.vsaudio.R;
 import com.vssyii.vsaudio.adapter.AlbumSongAdapter;
 import com.vssyii.vsaudio.dataload.AlbumLoader;
@@ -47,6 +50,7 @@ public class albumDetails_fragment extends Fragment {
     private RecyclerView recyclerView;
     private AlbumSongAdapter albumSongAdapter;
     private Toolbar toolbar;
+    public static FloatingActionButton btAlbumPlayShuffle;
 
     public static albumDetails_fragment newInstance(long id) {
 
@@ -74,6 +78,7 @@ public class albumDetails_fragment extends Fragment {
         collapsingAlbumBg = rootView.findViewById(R.id.collapsingAlbumBg);
         collapsingToolbarLayout = rootView.findViewById(R.id.collapsingAlbumLayout);
         toolbar = rootView.findViewById(R.id.toolbar);
+        btAlbumPlayShuffle = rootView.findViewById(R.id.btAlbumPlay);
         recyclerView = rootView.findViewById(R.id.collapsingAlbumRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
