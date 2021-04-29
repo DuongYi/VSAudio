@@ -13,6 +13,7 @@
         android:label="VS Music"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:name=".notification.ApplicationClass"
         android:theme="@style/Theme.VSAudio">
         
         <activity android:name=".PlayerActivity"></activity>
@@ -23,6 +24,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".service.MusicService" android:enabled="true" />
     </application>
 
 </manifest>
