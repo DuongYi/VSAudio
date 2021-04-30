@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.vssyii.vsaudio.models.Song;
+import com.vssyii.vsaudio.util.ActionPlaying;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     List<Song> songList = new ArrayList<>();
     private Uri uri;
     int position = -1;
+    ActionPlaying actionPlaying;
 
     @Override
     public void onCreate() {
@@ -94,8 +96,15 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     public void onCompleted() {
         mediaPlayer.setOnCompletionListener(this);
     }
+
     @Override
     public void onCompletion(MediaPlayer mp) {
+        if (actionPlaying != null) {
+            actionPlaying.nextButtonClicked();
+        }
+        createMediaPlayer(position);
+        mediaPlayer.start();
+        onCompleted();
 
     }
 }

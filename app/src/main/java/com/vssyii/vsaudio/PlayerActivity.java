@@ -2,42 +2,42 @@ package com.vssyii.vsaudio;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 import androidx.palette.graphics.Palette;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.media.MediaMetadataRetriever;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.TransitionOptions;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.vssyii.vsaudio.MusicAction.musicAction;
-import com.vssyii.vsaudio.dataload.SongLoader;
 import com.vssyii.vsaudio.models.Song;
+import com.vssyii.vsaudio.notification.NotificationReceiver;
 import com.vssyii.vsaudio.service.MusicService;
 import com.vssyii.vsaudio.util.ActionPlaying;
 
@@ -52,12 +52,17 @@ import static com.vssyii.vsaudio.adapter.AlbumSongAdapter.albumSongList;
 import static com.vssyii.vsaudio.adapter.ArtistSongAdapter.artistSongList;
 import static com.vssyii.vsaudio.adapter.SongAdapter.getImage;
 import static com.vssyii.vsaudio.fragments.songs_fragment.songList;
+import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_NEXT;
+import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_PLAY;
+import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_PREVIOUS;
+import static com.vssyii.vsaudio.notification.ApplicationClass.CHANNEL_ID_2;
 
 public class PlayerActivity extends AppCompatActivity
-                            implements MediaPlayer.OnCompletionListener, ActionPlaying, ServiceConnection {
+                            implements ActionPlaying, ServiceConnection {
 
     ShapeableImageView player_bg;
-    ImageView btDown, btSetting, player_btPlay, player_btPrevious, player_btNext, player_btLike, player_btRandom, player_btRepeat, player_btAddPlayList;
+    ImageView btDown, btSetting, player_btPlay, player_btPrevious, player_btNext, player_btLike,
+            player_btRandom, player_btRepeat, player_btAddPlayList;
     TextView durationPlayed, durationTotal, player_tvTitle, player_tvArtistName;
     SeekBar seekBar;
 
@@ -68,12 +73,14 @@ public class PlayerActivity extends AppCompatActivity
     private Handler handler = new Handler();
     private Thread playThread, previousThread, nextThread;
     MusicService musicService;
+    MediaSessionCompat mediaSessionCompat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.player_activity);
 
+        mediaSessionCompat = new MediaSessionCompat(getBaseContext(), "My Audio");
         initPlayerViews();
 
         getIntentMethod();
@@ -238,6 +245,7 @@ public class PlayerActivity extends AppCompatActivity
             });
 
             musicService.onCompleted();
+            showNotification(R.drawable.notipause);
             musicService.start();
 
         }
@@ -271,6 +279,7 @@ public class PlayerActivity extends AppCompatActivity
                 }
             });
             musicService.onCompleted();
+            showNotification(R.drawable.notiplay);
         }
     }
 
@@ -322,6 +331,7 @@ public class PlayerActivity extends AppCompatActivity
                 }
             });
             musicService.onCompleted();
+            showNotification(R.drawable.notipause);
             musicService.start();
         }
         else {
@@ -354,6 +364,7 @@ public class PlayerActivity extends AppCompatActivity
                 }
             });
             musicService.onCompleted();
+            showNotification(R.drawable.notiplay);
         }
     }
 
@@ -377,6 +388,7 @@ public class PlayerActivity extends AppCompatActivity
     public void playButtonClicked() {
         if(musicService.isPlaying()) {
             player_btPlay.setImageResource(R.drawable.play_button);
+            showNotification(R.drawable.notiplay);
             musicService.pause();
             seekBar.setMax(musicService.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
@@ -391,6 +403,7 @@ public class PlayerActivity extends AppCompatActivity
         }
         else {
             player_btPlay.setImageResource(R.drawable.pause);
+            showNotification(R.drawable.notipause);
             musicService.start();
             seekBar.setMax(musicService.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
@@ -437,7 +450,7 @@ public class PlayerActivity extends AppCompatActivity
             Log.i("FORMAT_URI","" + listSongs.get(position).path);
             uri = Uri.parse(listSongs.get(position).path);
         }
-
+        showNotification(R.drawable.notipause);
         Intent intent = new Intent(this, MusicService.class);
         intent.putExtra("servicePosition", position);
         startService(intent);
@@ -547,16 +560,6 @@ public class PlayerActivity extends AppCompatActivity
         imageView.startAnimation(animOut);
     }
 
-    @Override
-    public void onCompletion(MediaPlayer mp) {
-        nextButtonClicked();
-        if(musicService != null) {
-            musicService.createMediaPlayer(position);
-            musicService.start();
-            musicService.onCompleted();
-        }
-    }
-
     private int getRandom(int i) {
         Random random = new Random();
         return random.nextInt(i + 1);
@@ -578,5 +581,51 @@ public class PlayerActivity extends AppCompatActivity
     @Override
     public void onServiceDisconnected(ComponentName name) {
         musicService = null;
+    }
+
+    void showNotification(int playPauseBtn) {
+        Intent intent = new Intent(this, PlayerActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+
+        Intent prevIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_PREVIOUS);
+        PendingIntent prevPending = PendingIntent.getBroadcast(this, 0, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent pauseIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_PLAY);
+        PendingIntent pausePending = PendingIntent.getBroadcast(this, 0, pauseIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent nextIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_NEXT);
+        PendingIntent nextPending = PendingIntent.getBroadcast(this, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        byte[] picture = null;
+        picture = getAlbumArt(songList.get(position).path);
+        Bitmap thumb = null;
+        if (picture != null) {
+            thumb = BitmapFactory.decodeByteArray(picture, 0, picture.length);
+        }
+        else  {
+            thumb = BitmapFactory.decodeResource(getResources(), R.drawable.unknowart);
+        }
+        NotificationCompat.Action action = new NotificationCompat.Action.Builder(R.drawable.back, "Previous", prevPending).build();
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_2)
+                .setSmallIcon(playPauseBtn)
+                .setLargeIcon(thumb)
+                .setContentTitle(songList.get(position).title)
+                .setContentText(songList.get(position).artistName)
+                .addAction(R.drawable.notiprevious, "aa", prevPending)
+                .addAction(playPauseBtn, "Pause", pausePending)
+                .addAction(R.drawable.notinext, "Next", nextPending)
+                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+                        .setMediaSession(mediaSessionCompat.getSessionToken()))
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setOnlyAlertOnce(true)
+                .build();
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notification);
+
+    }
+    private byte[] getAlbumArt(String uri) {
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        retriever.setDataSource(uri);
+        byte[] art = retriever.getEmbeddedPicture();
+        return art;
     }
 }
