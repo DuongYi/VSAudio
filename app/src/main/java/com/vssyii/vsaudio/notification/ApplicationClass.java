@@ -13,6 +13,7 @@ public class ApplicationClass extends Application {
     public static final String ACTION_PREVIOUS = "actionPrevious";
     public static final String ACTION_NEXT = "actionNext";
     public static final String ACTION_PLAY = "actionPlay";
+    public static final String ACTION_CANCEL = "actionCancel";
 
     @Override
     public void onCreate() {

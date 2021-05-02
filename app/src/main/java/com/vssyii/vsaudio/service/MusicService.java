@@ -5,6 +5,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.vssyii.vsaudio.PlayerActivity.listSongs;
+import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_CANCEL;
 import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_NEXT;
 import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_PLAY;
 import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_PREVIOUS;
@@ -43,6 +45,11 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     int position = -1;
     ActionPlaying actionPlaying;
     MediaSessionCompat mediaSessionCompat;
+    public static final String MUSIC_LAST_PLAYED = "LAST_PLAYED";
+    public static final String MUSIC_FILE = "STORED_MUSIC";
+    public static final String ARTIST_NAME = "ARTIST NAME";
+    public static final String SONG_NAME = "SONG NAME";
+
 
     @Override
     public void onCreate() {
@@ -129,6 +136,12 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     public void createMediaPlayer(int positionInner) {
         position = positionInner;
         uri = Uri.parse(songList.get(position).path);
+        SharedPreferences.Editor editor = getSharedPreferences(MUSIC_LAST_PLAYED, MODE_PRIVATE)
+                .edit();
+        editor.putString(MUSIC_FILE, uri.toString());
+        editor.putString(SONG_NAME, songList.get(position).title);
+        editor.putString(ARTIST_NAME, songList.get(position).artistName );
+        editor.apply();
         mediaPlayer = MediaPlayer.create(getBaseContext(), uri);
     }
     public void onCompleted() {
@@ -162,6 +175,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
         Intent nextIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_NEXT);
         PendingIntent nextPending = PendingIntent.getBroadcast(this, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         byte[] picture = null;
         picture = getAlbumArt(songList.get(position).path);
         Bitmap thumb = null;
@@ -183,11 +197,11 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                         .setMediaSession(mediaSessionCompat.getSessionToken()))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOnlyAlertOnce(true)
-                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                //.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .build();
-        //NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-       // notificationManager.notify(0, notification);
-        startForeground(2, notification);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.notify(0, notification);
+        //startForeground(2, notification);
 
     }
 

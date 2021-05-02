@@ -37,6 +37,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.vssyii.vsaudio.MusicAction.musicAction;
 import com.vssyii.vsaudio.models.Song;
+import com.vssyii.vsaudio.notification.ApplicationClass;
 import com.vssyii.vsaudio.notification.NotificationReceiver;
 import com.vssyii.vsaudio.service.MusicService;
 import com.vssyii.vsaudio.util.ActionPlaying;

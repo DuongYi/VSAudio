@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.vssyii.vsaudio.service.MusicService;
 
+import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_CANCEL;
 import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_NEXT;
 import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_PLAY;
 import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_PREVIOUS;
