@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:requestLegacyExternalStorage="true"
@@ -26,6 +27,14 @@
         </activity>
 
         <service android:name=".service.MusicService" android:enabled="true" />
+
+        <receiver android:name=".notification.NotificationReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="actionPrevious"></action>
+                <action android:name="actionNext"></action>
+                <action android:name="actionPlay"></action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

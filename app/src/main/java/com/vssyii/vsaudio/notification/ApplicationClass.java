@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
+import android.view.View;
 
 public class ApplicationClass extends Application {
     public static final String CHANNEL_ID_1 = "channel1";
