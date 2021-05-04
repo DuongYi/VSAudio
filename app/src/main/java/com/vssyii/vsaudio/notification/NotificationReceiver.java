@@ -31,6 +31,10 @@ public class NotificationReceiver extends BroadcastReceiver {
                     serviceIntent.putExtra("ActionName", "previous");
                     context.startService(serviceIntent);
                     break;
+                case ACTION_CANCEL:
+                    serviceIntent.putExtra("ActionName", "cancel");
+                    context.startService(serviceIntent);
+                    break;
             }
         }
     }

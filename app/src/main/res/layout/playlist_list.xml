@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/playlistImage"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:background="@color/white"
+        tools:srcCompat="@drawable/unknowart"
+        app:shapeAppearanceOverlay="@style/RoundSquare"
+        android:scaleType="centerCrop"
+        android:elevation="3.3dp"
+        app:strokeWidth="0.3dp"
+        app:strokeColor="#C6A1A1A1"/>
+
+    <TextView
+        android:id="@+id/playlistTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/playlistImage"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="My Music"
+        android:textColor="@color/black"
+        android:textSize="15.3dp"
+        android:textStyle="bold"
+        android:layout_marginTop="2.3dp"
+        android:layout_marginBottom="0.8dp"/>
+
+    <TextView
+        android:id="@+id/playlistSongs"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/playlistTitle"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="0 songs"
+        android:textColor="@color/Gray"
+        android:textSize="13dp"
+        android:layout_marginBottom="3dp"/>
+
+</RelativeLayout>

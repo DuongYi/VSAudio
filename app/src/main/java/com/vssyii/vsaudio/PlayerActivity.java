@@ -66,6 +66,7 @@ public class PlayerActivity extends AppCompatActivity
             player_btRandom, player_btRepeat, player_btAddPlayList;
     TextView durationPlayed, durationTotal, player_tvTitle, player_tvArtistName;
     SeekBar seekBar;
+    private static final int LAUNCH_SECOND_ACTIVITY = 0;
 
     int position = -1;
     public static List<Song> listSongs = new ArrayList<>();
@@ -446,7 +447,6 @@ public class PlayerActivity extends AppCompatActivity
 
         if(listSongs != null) {
             player_btPlay.setImageResource(R.drawable.pause);
-            Log.i("FORMAT_URI","" + listSongs.get(position).path);
             uri = Uri.parse(listSongs.get(position).path);
         }
 
@@ -569,7 +569,6 @@ public class PlayerActivity extends AppCompatActivity
         MusicService.MyBinder myBinder = (MusicService.MyBinder) service;
         musicService = myBinder.getService();
         musicService.setCallBack(this);
-        Toast.makeText(this, "Connected" + musicService, Toast.LENGTH_SHORT).show();
         seekBar.setMax(musicService.getDuration()/1000);
         metaData(uri);
         player_tvTitle.setText(listSongs.get(position).title);
@@ -583,4 +582,5 @@ public class PlayerActivity extends AppCompatActivity
     public void onServiceDisconnected(ComponentName name) {
         musicService = null;
     }
+
 }

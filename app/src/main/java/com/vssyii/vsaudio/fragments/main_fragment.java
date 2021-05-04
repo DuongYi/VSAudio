@@ -30,6 +30,7 @@ public class main_fragment extends Fragment {
         viewPagerAdapter.AddFragments(new songs_fragment(), "Songs");
         viewPagerAdapter.AddFragments(new artist_fragment(), "artist");
         viewPagerAdapter.AddFragments(new album_fragment(), "album");
+        viewPagerAdapter.AddFragments(new playList_fragment(), "playList");
 
         viewPager.setAdapter(viewPagerAdapter);
         tabLayout.setupWithViewPager(viewPager);

@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -49,6 +50,7 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     public static final String MUSIC_FILE = "STORED_MUSIC";
     public static final String ARTIST_NAME = "ARTIST NAME";
     public static final String SONG_NAME = "SONG NAME";
+    public static final String SONG_POSITION = "POSITION";
 
 
     @Override
@@ -93,12 +95,16 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                         actionPlaying.previousButtonClicked();
                     }
                     break;
+                case "cancel":
+                    stop();
+                    break;
             }
         }
-        return START_STICKY;
+        return START_NOT_STICKY;
     }
 
-    private void playMedia(int startPosition) {
+
+    public void playMedia(int startPosition) {
         songList = listSongs;
         position = startPosition;
         if (mediaPlayer != null) {
@@ -133,11 +139,13 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     public int getCurrentPosition() {
         return mediaPlayer.getCurrentPosition();
     }
+
     public void createMediaPlayer(int positionInner) {
         position = positionInner;
         uri = Uri.parse(songList.get(position).path);
         SharedPreferences.Editor editor = getSharedPreferences(MUSIC_LAST_PLAYED, MODE_PRIVATE)
                 .edit();
+        editor.putInt(SONG_POSITION, position);
         editor.putString(MUSIC_FILE, uri.toString());
         editor.putString(SONG_NAME, songList.get(position).title);
         editor.putString(ARTIST_NAME, songList.get(position).artistName );
@@ -164,8 +172,9 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     }
 
     public void showNotification(int playPauseBtn) {
-        Intent intent = new Intent(this, PlayerActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        Intent resultIntent = new Intent(this, PlayerActivity.class);
+        resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent prevIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_PREVIOUS);
         PendingIntent prevPending = PendingIntent.getBroadcast(this, 0, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -175,6 +184,9 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
 
         Intent nextIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_NEXT);
         PendingIntent nextPending = PendingIntent.getBroadcast(this, 0, nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent cancelIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_CANCEL);
+        PendingIntent cancelPending = PendingIntent.getBroadcast(this, 0, cancelIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         byte[] picture = null;
         picture = getAlbumArt(songList.get(position).path);
@@ -188,11 +200,13 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_2)
                 .setSmallIcon(playPauseBtn)
                 .setLargeIcon(thumb)
+                .setContentIntent(contentIntent)
                 .setContentTitle(songList.get(position).title)
                 .setContentText(songList.get(position).artistName)
                 .addAction(R.drawable.notiprevious, "Previous", prevPending)
                 .addAction(playPauseBtn, "Pause", pausePending)
                 .addAction(R.drawable.notinext, "Next", nextPending)
+                .addAction(R.drawable.clear, "Cancel", cancelPending)
                 .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
                         .setMediaSession(mediaSessionCompat.getSessionToken()))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
