@@ -10,9 +10,9 @@ import com.vssyii.vsaudio.models.Song;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SongLoader {
-    public List<Song> getAllSongs(Context context) {
-        List<Song> songList = new ArrayList<>();
+public class PlaylistSongLoader {
+    public static List<Song> getAllPlaylistSongs(Context context, int playlistId) {
+        List<Song> playlistSongList = new ArrayList<>();
 
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
         String[] projection = new String[] {
@@ -24,24 +24,20 @@ public class SongLoader {
                 MediaStore.Audio.Media.ARTIST,//5
                 MediaStore.Audio.Media.DURATION,//6
                 MediaStore.Audio.Media.TRACK,//7
-                MediaStore.Audio.Media.DATA//8
+                MediaStore.Audio.Media.DATA,//8
         };
         String sortOrder = MediaStore.Audio.Media.DISPLAY_NAME;
-        String selection = "is_music=1";
+        String selection = "is_music=1 and title != '' and track= " + playlistId;
         Cursor cursor = context.getContentResolver().query(uri, projection,
                 selection, null, sortOrder);
 
         if (cursor != null && cursor.moveToFirst()) {
             do {
-                songList.add(new Song(cursor.getLong(0),
-                                    cursor.getString(1),
-                                    cursor.getLong(2),
-                                    cursor.getString(3),
-                                    cursor.getLong(4),
-                                    cursor.getString(5),
-                                    cursor.getInt(6),
-                                    cursor.getInt(7),
-                                    cursor.getString(8)));
+
+                int trackIdNumber = playlistId;
+
+                playlistSongList.add(new Song(cursor.getLong(0), cursor.getString(1), cursor.getLong(2), cursor.getString(3),
+                        cursor.getLong(4),cursor.getString(5), cursor.getInt(6),trackIdNumber, cursor.getString(8)));
             }
             while (cursor.moveToNext());
 
@@ -49,6 +45,6 @@ public class SongLoader {
                 cursor.close();
             }
         }
-        return songList;
+        return playlistSongList;
     }
 }

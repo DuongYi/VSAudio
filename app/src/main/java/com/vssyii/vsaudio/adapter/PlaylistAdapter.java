@@ -17,7 +17,7 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.vssyii.vsaudio.R;
-import com.vssyii.vsaudio.fragments.albumDetails_fragment;
+import com.vssyii.vsaudio.fragments.playlistDetail_fragment;
 import com.vssyii.vsaudio.models.Playlist;
 
 import java.util.List;
@@ -81,7 +81,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PLVH> 
             transaction.setCustomAnimations(R.anim.layout_fad_in, R.anim.layout_fad_out,
                     R.anim.layout_fad_in, R.anim.layout_fad_out);
 
-            fragment = albumDetails_fragment.newInstance(playlistId);
+            fragment = playlistDetail_fragment.newInstance(playlistId);
 
             transaction.hide(((AppCompatActivity)context).getSupportFragmentManager().findFragmentById(R.id.main_container));
 

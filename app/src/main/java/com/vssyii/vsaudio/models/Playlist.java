@@ -1,16 +1,32 @@
 package com.vssyii.vsaudio.models;
 
 public class Playlist {
-    public final int id;
-    public final String name;
+    public int id;
+    public String name;
 
-    public Playlist()  {
+    public Playlist() {
         id = -1;
-        name = "";
+        name = "VS Music";
     }
 
     public Playlist(int id, String name) {
         this.id = id;
+        this.name = name;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
         this.name = name;
     }
 }

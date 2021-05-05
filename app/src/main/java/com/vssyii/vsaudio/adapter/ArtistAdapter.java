@@ -1,6 +1,8 @@
 package com.vssyii.vsaudio.adapter;
 
 import android.app.Activity;
+import android.content.ContentUris;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,7 +57,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ARV> {
                 holder.totalSongs.setText(String.valueOf(artist.songCount) + " song");
             }
 
-            ImageLoader.getInstance().displayImage(getImage(artist.id).toString(), holder.artistImage,
+            ImageLoader.getInstance().displayImage(getArtImage(artist.id).toString(), holder.artistImage,
                     new DisplayImageOptions.Builder().cacheInMemory(true).showImageOnFail(R.drawable.unknown).resetViewBeforeLoading(true).build());
         }
     }
@@ -63,6 +65,10 @@ public class ArtistAdapter extends RecyclerView.Adapter<ArtistAdapter.ARV> {
     @Override
     public int getItemCount() {
         return artistList!=null?artistList.size():0;
+    }
+
+    public static Uri getArtImage(long artId) {
+        return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), artId);
     }
 
     public class ARV extends RecyclerView.ViewHolder implements View.OnClickListener {

@@ -107,6 +107,8 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.VH> {
         return ContentUris.withAppendedId(Uri.parse("content://media/external/audio/albumart"), albumId);
     }
 
+
+
     @Override
     public int getItemCount() {
         return songList != null ? songList.size() : 0;

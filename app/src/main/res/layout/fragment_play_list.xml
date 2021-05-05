@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.playList_fragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -11,5 +12,16 @@
         android:layout_height="match_parent"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="30dp"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btCreatePlaylist"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:src="@drawable/icon_plus"
+        android:elevation="10dp"
+        android:backgroundTint="#F4FF81"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="30dp"/>
 
 </FrameLayout>

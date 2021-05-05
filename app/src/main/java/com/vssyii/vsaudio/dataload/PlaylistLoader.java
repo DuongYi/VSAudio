@@ -20,8 +20,9 @@ public class PlaylistLoader {
 
     public List<Playlist> getAllPlaylistsAudio(Context context) {
         List<Playlist> playlists = new ArrayList<>();
-        playlists.add(new Playlist(-1, "My Music"));
-        playlists.add(new Playlist(-2, "Favorite Music"));
+        playlists.add(new Playlist(1, "My Music"));
+        playlists.add(new Playlist(2, "Favorite Music"));
+
         playlists.addAll(getAllPlaylists(context));
         for (Playlist p : playlists) {
             Log.d("PLAYLISTTT", "id = " + p.id + " - name = " + p.name);
@@ -39,6 +40,17 @@ public class PlaylistLoader {
                 new String[]{playlistName}));
     }
 
+    private Playlist playlist(Cursor cursor) {
+        Playlist playlist = new Playlist();
+        if (cursor.moveToFirst() && cursor != null) {
+            playlist = getPlaylistFromCursor(cursor);
+        }
+        if (cursor != null) {
+            cursor.close();
+        }
+        return playlist;
+    }
+
     public List<Playlist>  getPlaylist(Cursor cursor) {
         List<Playlist> playlists = new ArrayList<>();
         if (cursor != null && cursor.moveToFirst()) {
@@ -51,17 +63,6 @@ public class PlaylistLoader {
             cursor.close();
         }
         return playlists;
-    }
-
-    private Playlist playlist(Cursor cursor) {
-        Playlist playlist = new Playlist();
-        if (cursor.moveToFirst() && cursor != null) {
-            playlist = getPlaylistFromCursor(cursor);
-        }
-        if (cursor != null) {
-            cursor.close();
-        }
-        return playlist;
     }
 
     private Playlist getPlaylistFromCursor(Cursor cursor) {
