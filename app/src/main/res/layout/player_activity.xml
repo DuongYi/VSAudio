@@ -27,7 +27,7 @@
             android:layout_height="60dp"
             android:padding="9dp"
             android:id="@+id/btDown"
-            android:src="@drawable/down_arrow"
+            android:src="@drawable/down_arroww"
             android:layout_alignParentStart="true"/>
 
         <TextView

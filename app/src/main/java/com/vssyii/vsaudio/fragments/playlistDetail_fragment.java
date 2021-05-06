@@ -14,9 +14,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -27,8 +29,11 @@ import com.vssyii.vsaudio.R;
 import com.vssyii.vsaudio.adapter.PlaylistSongAdapter;
 import com.vssyii.vsaudio.dataload.PlaylistLoader;
 import com.vssyii.vsaudio.dataload.PlaylistSongLoader;
+import com.vssyii.vsaudio.dialog.DeletePlaylistDialog;
+import com.vssyii.vsaudio.dialog.RenamePlaylistDialog;
 import com.vssyii.vsaudio.models.Playlist;
 import com.vssyii.vsaudio.models.Song;
+import com.vssyii.vsaudio.util.PlaylistsUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +104,28 @@ public class playlistDetail_fragment extends Fragment {
 
     private void initToolbar() {
         toolbar.inflateMenu(R.menu.playlist_menu);
+
+        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                int id = item.getItemId();
+                switch (id) {
+                    case R.id.playlistMenu_play:
+                        Toast.makeText(getActivity(), "Play All", Toast.LENGTH_SHORT).show();
+                        return true;
+
+                    case R.id.playlistMenu_rename:
+                        RenamePlaylistDialog.create(playlist.id).show(getActivity().getSupportFragmentManager(), "RENAME_PLAYLIST");
+                        return true;
+
+                    case R.id.playlistMenu_delete:
+                        DeletePlaylistDialog.create(playlist).show(getActivity().getSupportFragmentManager(), "DELETE_PLAYLIST");
+                        return true;
+                }
+                return false;
+            }
+        });
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -106,5 +133,4 @@ public class playlistDetail_fragment extends Fragment {
             }
         });
     }
-
 }

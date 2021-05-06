@@ -2,5 +2,9 @@
     <string name="app_name">VSAudio</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="playlist_name_empty">Playlist name</string>
+    <string name="delete_x_playlists"><![CDATA[Delete <b>%1$d</b> playlists?]]></string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="delete_playlist_title">Delete playlist</string>
+    <string name="delete_playlists_title">Delete playlists</string>
+    <string name="delete_playlist_x"><![CDATA[Delete the playlist <b>%1$s</b>?]]></string>
 </resources>

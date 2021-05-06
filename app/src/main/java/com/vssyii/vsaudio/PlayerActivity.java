@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
 import androidx.palette.graphics.Palette;
 
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -51,6 +52,7 @@ import static com.vssyii.vsaudio.MainActivity.repeatBoolean;
 import static com.vssyii.vsaudio.MainActivity.shuffleBoolean;
 import static com.vssyii.vsaudio.adapter.AlbumSongAdapter.albumSongList;
 import static com.vssyii.vsaudio.adapter.ArtistSongAdapter.artistSongList;
+import static com.vssyii.vsaudio.adapter.PlaylistSongAdapter.playlistSongs;
 import static com.vssyii.vsaudio.adapter.SongAdapter.getImage;
 import static com.vssyii.vsaudio.fragments.songs_fragment.songList;
 import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_NEXT;
@@ -175,6 +177,13 @@ public class PlayerActivity extends AppCompatActivity
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Add on My Music playlist", Toast.LENGTH_SHORT).show();
                 return;
+            }
+        });
+
+        btDown.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
 
@@ -440,6 +449,9 @@ public class PlayerActivity extends AppCompatActivity
         }
         else if(sender != null && sender.equals("ArtistSongAdapter")) {
             listSongs = artistSongList;
+        }
+        else if (sender != null && sender.equals("PlaylistSongAdapter")) {
+            listSongs = playlistSongs;
         }
         else {
             listSongs = songList;

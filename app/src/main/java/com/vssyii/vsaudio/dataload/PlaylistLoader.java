@@ -14,12 +14,12 @@ import java.util.List;
 
 public class PlaylistLoader {
 
-    public List<Playlist>getAllPlaylists(Context context) {
+    public static  ArrayList<Playlist>getAllPlaylists(Context context) {
         return getPlaylist(makePlaylistCursor(context, null, null));
     }
 
-    public List<Playlist> getAllPlaylistsAudio(Context context) {
-        List<Playlist> playlists = new ArrayList<>();
+    public ArrayList<Playlist> getAllPlaylistsAudio(Context context) {
+        ArrayList<Playlist> playlists = new ArrayList<>();
         playlists.add(new Playlist(1, "My Music"));
         playlists.add(new Playlist(2, "Favorite Music"));
 
@@ -30,7 +30,7 @@ public class PlaylistLoader {
         return playlists;
     }
 
-    public Playlist getPlaylist(Context context, int playlistId) {
+    public static Playlist getPlaylist(Context context, int playlistId) {
         return  playlist(makePlaylistCursor(context, MediaStore.Audio.Playlists._ID + "=?",
                 new String[]{String.valueOf(playlistId)}));
     }
@@ -40,7 +40,7 @@ public class PlaylistLoader {
                 new String[]{playlistName}));
     }
 
-    private Playlist playlist(Cursor cursor) {
+    public static Playlist playlist(Cursor cursor) {
         Playlist playlist = new Playlist();
         if (cursor.moveToFirst() && cursor != null) {
             playlist = getPlaylistFromCursor(cursor);
@@ -51,8 +51,8 @@ public class PlaylistLoader {
         return playlist;
     }
 
-    public List<Playlist>  getPlaylist(Cursor cursor) {
-        List<Playlist> playlists = new ArrayList<>();
+    public static ArrayList<Playlist>  getPlaylist(Cursor cursor) {
+        ArrayList<Playlist> playlists = new ArrayList<>();
         if (cursor != null && cursor.moveToFirst()) {
             do {
                 playlists.add(getPlaylistFromCursor(cursor));
@@ -65,13 +65,13 @@ public class PlaylistLoader {
         return playlists;
     }
 
-    private Playlist getPlaylistFromCursor(Cursor cursor) {
+    public static Playlist getPlaylistFromCursor(Cursor cursor) {
         int id = cursor.getInt(0);
         String name = cursor.getString(1);
         return new Playlist(id, name);
     }
 
-    public Cursor makePlaylistCursor(Context context, String selection, String[] selectionArg) {
+    public static Cursor makePlaylistCursor(Context context, String selection, String[] selectionArg) {
         Uri uri = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI;
         String projection[] = new String[] {
                 MediaStore.Audio.Playlists._ID,    //1

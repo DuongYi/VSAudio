@@ -1,6 +1,7 @@
 package com.vssyii.vsaudio.adapter;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +10,14 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.vssyii.vsaudio.PlayerActivity;
 import com.vssyii.vsaudio.R;
 import com.vssyii.vsaudio.models.Song;
 
 import java.util.List;
+
+import static com.vssyii.vsaudio.fragments.artistDetails_fragment.artistPlayButtonShuffle;
+import static com.vssyii.vsaudio.fragments.playlistDetail_fragment.btPlaylistPlayShuffle;
 
 public class PlaylistSongAdapter extends RecyclerView.Adapter<PlaylistSongAdapter.PLSVH> {
     public static List<Song> playlistSongs;
@@ -38,6 +43,26 @@ public class PlaylistSongAdapter extends RecyclerView.Adapter<PlaylistSongAdapte
             holder.playlistSong_title.setText(song.title);
             holder.playlistSong_art.setText(song.artistName);
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PlayerActivity.class);
+                intent.putExtra("sender", "PlaylistSongAdapter");
+                intent.putExtra("position", position);
+                context.startActivity(intent);
+            }
+        });
+
+        btPlaylistPlayShuffle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, PlayerActivity.class);
+                intent.putExtra("sender", "PlaylistSongAdapter");
+                intent.putExtra("position", position);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

@@ -58,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Open Big", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(), PlayerActivity.class);
-                startService(intent);
+                getTaskId();
             }
         });
 

@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -26,6 +27,7 @@ import com.vssyii.vsaudio.dialog.CreatePlaylistDialog;
 import com.vssyii.vsaudio.models.Playlist;
 import com.vssyii.vsaudio.util.PlaylistsUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -40,7 +42,7 @@ public class playList_fragment extends Fragment {
     int spacing = 30;
     int refresh;
     boolean includeEdge = false;
-    private List<Playlist> playlists;
+    private ArrayList<Playlist> playlists;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,18 +55,38 @@ public class playList_fragment extends Fragment {
 
         new loadData().execute("");
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                if (dy > 0) {
+                    btCreatePlaylist.hide();
+                }
+                else {
+                    btCreatePlaylist.show();
+                }
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
+
         btCreatePlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CreatePlaylistDialog.create().show(getActivity().getSupportFragmentManager(), "ADD_TO_PLAYLIST");
+            }
+        });
 
+        btCreatePlaylist.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
                 if (refresh != new PlaylistLoader().getAllPlaylistsAudio(getActivity()).size() ) {
                     FragmentTransaction ft = getFragmentManager().beginTransaction();
                     if (Build.VERSION.SDK_INT >= 26) {
                         ft.setReorderingAllowed(false);
                     }
                     ft.detach(playList_fragment.this).attach(playList_fragment.this).commit();
+                    return true;
                 }
+                return false;
             }
         });
 

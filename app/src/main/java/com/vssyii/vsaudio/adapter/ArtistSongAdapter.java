@@ -56,6 +56,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.AT
                 context.startActivity(intent);
             }
         });
+
         artistPlayButtonShuffle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

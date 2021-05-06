@@ -63,5 +63,4 @@ public class musicAction {
             Snackbar.make(view, "Can't be deleted", Snackbar.LENGTH_LONG).show();
         }
     }
-
 }

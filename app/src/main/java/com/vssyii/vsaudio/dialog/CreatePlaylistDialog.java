@@ -17,7 +17,6 @@ import com.vssyii.vsaudio.util.PlaylistsUtil;
 import java.util.ArrayList;
 
 public class CreatePlaylistDialog extends DialogFragment {
-    private static final String SONGS = "songs";
 
     @NonNull
     public static CreatePlaylistDialog create() {

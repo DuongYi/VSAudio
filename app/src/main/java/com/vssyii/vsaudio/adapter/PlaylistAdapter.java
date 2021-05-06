@@ -20,15 +20,16 @@ import com.vssyii.vsaudio.R;
 import com.vssyii.vsaudio.fragments.playlistDetail_fragment;
 import com.vssyii.vsaudio.models.Playlist;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.vssyii.vsaudio.adapter.SongAdapter.getImage;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.PLVH> {
     private Activity context;
-    private List<Playlist> playlists;
+    private ArrayList<Playlist> playlists;
 
-    public PlaylistAdapter(Activity context, List<Playlist> playlists) {
+    public PlaylistAdapter(Activity context, ArrayList<Playlist> playlists) {
         this.context = context;
         this.playlists = playlists;
     }
