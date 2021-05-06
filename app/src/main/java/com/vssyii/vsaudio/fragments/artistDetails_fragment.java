@@ -71,7 +71,7 @@ public class artistDetails_fragment extends Fragment {
 
         collapsingArtistBg = rootView.findViewById(R.id.collapsingArtistBg);
         collapsingToolbarLayout = rootView.findViewById(R.id.collapsingArtistLayout);
-        toolbar = rootView.findViewById(R.id.toolbar);
+        toolbar = rootView.findViewById(R.id.artist_toolbar);
         artistPlayButtonShuffle = rootView.findViewById(R.id.btArtistPlay);
         recyclerView = rootView.findViewById(R.id.collapsingArtistRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -108,8 +108,9 @@ public class artistDetails_fragment extends Fragment {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "This is back button", Toast.LENGTH_SHORT).show();;
+                getActivity().onBackPressed();
             }
         });
+
     }
 }

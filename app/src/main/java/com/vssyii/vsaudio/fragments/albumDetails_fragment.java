@@ -77,7 +77,7 @@ public class albumDetails_fragment extends Fragment {
 
         collapsingAlbumBg = rootView.findViewById(R.id.collapsingAlbumBg);
         collapsingToolbarLayout = rootView.findViewById(R.id.collapsingAlbumLayout);
-        toolbar = rootView.findViewById(R.id.toolbar);
+        toolbar = rootView.findViewById(R.id.album_toolbar);
         btAlbumPlayShuffle = rootView.findViewById(R.id.btAlbumPlay);
         recyclerView = rootView.findViewById(R.id.collapsingAlbumRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -111,10 +111,10 @@ public class albumDetails_fragment extends Fragment {
         if(((AppCompatActivity)getActivity()).getSupportActionBar() != null) {
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        toolbar.setOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "This is back button", Toast.LENGTH_SHORT).show();;
+                getActivity().onBackPressed();
             }
         });
     }

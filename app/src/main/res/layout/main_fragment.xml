@@ -8,6 +8,35 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
+    <RelativeLayout
+        android:id="@+id/toolbarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/more"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:padding="10dp"
+            android:src="@drawable/more"/>
+
+        <EditText
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="18dp"
+            android:textSize="40px"
+            android:hint="Search..."
+            android:paddingStart="10dp"
+            android:paddingEnd="8dp"
+            android:layout_toEndOf="@+id/more"
+            android:background="@drawable/radius"
+            android:drawableEnd="?android:attr/actionModeWebSearchDrawable"/>
+
+    </RelativeLayout>
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"

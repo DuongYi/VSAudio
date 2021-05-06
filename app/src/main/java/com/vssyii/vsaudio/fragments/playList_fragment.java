@@ -68,13 +68,6 @@ public class playList_fragment extends Fragment {
             }
         });
 
-        Log.e("AAAAAAAAAAA", "" + refresh );
-        Log.e("AAAAAAAAAAAT", "" + new PlaylistLoader().getAllPlaylistsAudio(getActivity()).size() );
-
-        //reload
-
-
-
         return view;
     }
 

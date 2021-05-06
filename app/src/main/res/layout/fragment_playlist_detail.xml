@@ -2,6 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/playlistDetail"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -26,17 +27,17 @@
                 app:layout_collapseMode="parallax"/>
 
             <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+                android:id="@+id/playlist_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:background="#00FFFFFF"
                 android:fitsSystemWindows="true"
+                android:theme="@style/Theme.AppCompat.Light"
                 app:layout_collapseMode="pin"
-                android:theme="@style/Theme.AppCompat.Light" />
+                app:navigationIcon="?attr/homeAsUpIndicator" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
-
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/collapsingPlaylistRecyclerView"
@@ -45,7 +46,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp"/>
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btPlaylistPlay"

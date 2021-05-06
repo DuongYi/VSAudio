@@ -2,6 +2,7 @@ package com.vssyii.vsaudio.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -68,7 +71,7 @@ public class playlistDetail_fragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_playlist_detail, container, false);
         collapsingPlaylistBg = rootView.findViewById(R.id.collapsingPlaylistBg);
         collapsingToolbarLayout = rootView.findViewById(R.id.collapsingPlaylistLayout);
-        toolbar = rootView.findViewById(R.id.toolbar);
+        toolbar = rootView.findViewById(R.id.playlist_toolbar);
         btPlaylistPlayShuffle = rootView.findViewById(R.id.btPlaylistPlay);
         recyclerView = rootView.findViewById(R.id.collapsingPlaylistRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -95,15 +98,13 @@ public class playlistDetail_fragment extends Fragment {
     }
 
     private void initToolbar() {
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        if(((AppCompatActivity)getActivity()).getSupportActionBar() != null) {
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        toolbar.setOnClickListener(new View.OnClickListener() {
+        toolbar.inflateMenu(R.menu.playlist_menu);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(), "This is back button", Toast.LENGTH_SHORT).show();;
+                (getActivity()).onBackPressed();
             }
         });
     }
+
 }
