@@ -7,4 +7,6 @@
     <string name="delete_playlist_title">Delete playlist</string>
     <string name="delete_playlists_title">Delete playlists</string>
     <string name="delete_playlist_x"><![CDATA[Delete the playlist <b>%1$s</b>?]]></string>
+    <string name="appwidget_text">VS MUSIC</string>
+    <string name="add_widget">Add widget</string>
 </resources>

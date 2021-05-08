@@ -2,6 +2,7 @@ package com.vssyii.vsaudio.MusicAction;
 
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 import com.google.android.material.snackbar.Snackbar;
 import com.vssyii.vsaudio.R;
 import com.vssyii.vsaudio.models.Song;
+import com.vssyii.vsaudio.util.MusicUtil;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,7 +43,8 @@ public class musicAction {
                             deleteFile(songList, position, v);
                             break;
                         case R.id.share:
-                            Toast.makeText(context, "Shared", Toast.LENGTH_SHORT).show();
+                            context.startActivity(Intent.createChooser(MusicUtil.createShareSongFileIntent(songList.get(position), context), null).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                            break;
                     }
                     return true;
                 });

@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.vssyii.vsaudio.MusicAction.musicAction;
 import com.vssyii.vsaudio.PlayerActivity;
 import com.vssyii.vsaudio.R;
 import com.vssyii.vsaudio.models.Song;
@@ -67,27 +68,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<ArtistSongAdapter.AT
             }
         });
 
-        holder.artistSongAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(context, v);
-                popupMenu.getMenuInflater().inflate(R.menu.popup_musicaction, popupMenu.getMenu());
-                popupMenu.show();
-                popupMenu.setOnMenuItemClickListener(item -> {
-                    switch (item.getItemId()) {
-                        case R.id.addOnPlaylist:
-                            Toast.makeText(context, "Add successed on My Music playlist", Toast.LENGTH_SHORT).show();
-                            break;
-                        case R.id.delete:
-                            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-                            break;
-                        case R.id.share:
-                            Toast.makeText(context, "Shared", Toast.LENGTH_SHORT).show();
-                    }
-                    return true;
-                });
-            }
-        });
+        new musicAction(holder.artistSongAction, context).createAction(artistSongList, position);
     }
 
     @Override

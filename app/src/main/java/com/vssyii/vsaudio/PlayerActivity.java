@@ -64,7 +64,7 @@ public class PlayerActivity extends AppCompatActivity
                             implements ActionPlaying, ServiceConnection {
 
     ShapeableImageView player_bg;
-    ImageView btDown, btSetting, player_btPlay, player_btPrevious, player_btNext, player_btLike,
+    public static ImageView btDown, btSetting, player_btPlay, player_btPrevious, player_btNext, player_btLike,
             player_btRandom, player_btRepeat, player_btAddPlayList;
     TextView durationPlayed, durationTotal, player_tvTitle, player_tvArtistName;
     SeekBar seekBar;
@@ -240,7 +240,7 @@ public class PlayerActivity extends AppCompatActivity
             player_tvTitle.setText(listSongs.get(position).title);
             player_tvArtistName.setText(listSongs.get(position).artistName);
 
-            new musicAction(btSetting, getApplicationContext()).createAction(songList, position);
+            new musicAction(btSetting, getApplication()).createAction(songList, position);
 
             seekBar.setMax(musicService.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {

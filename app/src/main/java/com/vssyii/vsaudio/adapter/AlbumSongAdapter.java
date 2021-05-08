@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.vssyii.vsaudio.MusicAction.musicAction;
 import com.vssyii.vsaudio.PlayerActivity;
 import com.vssyii.vsaudio.R;
 import com.vssyii.vsaudio.models.Song;
@@ -21,6 +22,7 @@ import com.vssyii.vsaudio.models.Song;
 import java.util.List;
 
 import static com.vssyii.vsaudio.fragments.albumDetails_fragment.btAlbumPlayShuffle;
+import static com.vssyii.vsaudio.fragments.songs_fragment.songList;
 
 public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.ASVH> {
 
@@ -67,27 +69,7 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<AlbumSongAdapter.ASVH
             }
         });
 
-        holder.albumSongAction.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(context, v);
-                popupMenu.getMenuInflater().inflate(R.menu.popup_musicaction, popupMenu.getMenu());
-                popupMenu.show();
-                popupMenu.setOnMenuItemClickListener(item -> {
-                    switch (item.getItemId()) {
-                        case R.id.addOnPlaylist:
-                            Toast.makeText(context, "Add successed on My Music playlist", Toast.LENGTH_SHORT).show();
-                            break;
-                        case R.id.delete:
-                            Toast.makeText(context, "Deleted", Toast.LENGTH_SHORT).show();
-                            break;
-                        case R.id.share:
-                            Toast.makeText(context, "Shared", Toast.LENGTH_SHORT).show();
-                    }
-                    return true;
-                });
-            }
-        });
+        new musicAction(holder.albumSongAction, context).createAction(albumSongList, position);
     }
 
     @Override

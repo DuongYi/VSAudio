@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.vssyii.vsaudio">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.MEDIA_CONTENT_CONTROL"
+        tools:ignore="ProtectedPermissions" />
 
     <application
-        android:requestLegacyExternalStorage="true"
+        android:name=".notification.ApplicationClass"
         android:allowBackup="true"
         android:icon="@mipmap/vs_music"
         android:label="VS Music"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:name=".notification.ApplicationClass"
         android:theme="@style/Theme.VSAudio">
+        <receiver android:name=".appwidget.VSMusicWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/v_s_music_widget_info" />
+        </receiver>
 
         <activity
             android:name=".MainActivity"
@@ -26,18 +38,28 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".PlayerActivity" />
 
-        <activity
-            android:name=".PlayerActivity"></activity>
+        <service
+            android:name=".service.MusicService"
+            android:enabled="true" />
 
-        <service android:name=".service.MusicService" android:enabled="true" />
-
-        <receiver android:name=".notification.NotificationReceiver" android:enabled="true">
+        <receiver
+            android:name=".notification.NotificationReceiver"
+            android:enabled="true">
             <intent-filter>
-                <action android:name="actionPrevious"></action>
-                <action android:name="actionNext"></action>
-                <action android:name="actionPlay"></action>
+                <action android:name="actionPrevious" />
+                <action android:name="actionNext" />
+                <action android:name="actionPlay" />
             </intent-filter>
+        </receiver>
+
+        <receiver android:name=".appwidget.VSMusicWidget" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/v_s_music_widget_info" />
         </receiver>
     </application>
 

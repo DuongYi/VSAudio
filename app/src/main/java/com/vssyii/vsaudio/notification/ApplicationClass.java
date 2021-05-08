@@ -35,8 +35,6 @@ public class ApplicationClass extends Application {
             notificationManager.createNotificationChannel(channel1);
             notificationManager.createNotificationChannel(channel2);
 
-
-
         }
     }
 }

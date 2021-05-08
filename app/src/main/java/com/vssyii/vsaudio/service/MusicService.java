@@ -1,10 +1,12 @@
 package com.vssyii.vsaudio.service;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.app.TaskStackBuilder;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -22,6 +24,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.vssyii.vsaudio.MainActivity;
 import com.vssyii.vsaudio.PlayerActivity;
 import com.vssyii.vsaudio.R;
 import com.vssyii.vsaudio.models.Song;
@@ -32,6 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.vssyii.vsaudio.PlayerActivity.listSongs;
+import static com.vssyii.vsaudio.PlayerActivity.player_btPlay;
 import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_CANCEL;
 import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_NEXT;
 import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_PLAY;
@@ -96,7 +100,11 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                     }
                     break;
                 case "cancel":
+                    NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                    notificationManager.cancelAll();
+                    stopForeground(true);
                     stop();
+                    player_btPlay.setImageResource(R.drawable.play_button);
                     break;
             }
         }
@@ -172,9 +180,9 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
     }
 
     public void showNotification(int playPauseBtn) {
-        Intent resultIntent = new Intent(this, PlayerActivity.class);
+        Intent resultIntent = new Intent(this, MainActivity.class);
         resultIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 1, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         Intent prevIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_PREVIOUS);
         PendingIntent prevPending = PendingIntent.getBroadcast(this, 0, prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -211,11 +219,11 @@ public class MusicService extends Service implements MediaPlayer.OnCompletionLis
                         .setMediaSession(mediaSessionCompat.getSessionToken()))
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOnlyAlertOnce(true)
-                //.setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .build();
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.notify(0, notification);
-        //startForeground(2, notification);
+
+        startForeground(2, notification);
+
 
     }
 
