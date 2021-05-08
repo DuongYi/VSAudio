@@ -1,4 +1,4 @@
-package com.vssyii.vsaudio.util;
+package com.vssyii.vsaudio.MusicAction;
 
 public interface ActionPlaying {
     void playButtonClicked();

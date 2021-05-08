@@ -1,32 +1,23 @@
 package com.vssyii.vsaudio.models;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Playlist {
     public int id;
     public String name;
+    public List<Long> songs_id = new ArrayList<>();
 
     public Playlist() {
         id = -1;
         name = "VS Music";
+        songs_id = null;
     }
 
-    public Playlist(int id, String name) {
+    public Playlist(int id, String name, List<Long> songs_id) {
         this.id = id;
         this.name = name;
+        this.songs_id = songs_id;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

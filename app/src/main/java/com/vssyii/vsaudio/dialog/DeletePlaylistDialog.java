@@ -3,6 +3,7 @@ package com.vssyii.vsaudio.dialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.text.Html;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;

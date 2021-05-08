@@ -9,8 +9,11 @@ import android.view.View;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.vssyii.vsaudio.R;
+import com.vssyii.vsaudio.dialog.AddToPlaylistDialog;
 import com.vssyii.vsaudio.models.Song;
 import com.vssyii.vsaudio.util.MusicUtil;
 
@@ -37,7 +40,7 @@ public class musicAction {
                 popupMenu.setOnMenuItemClickListener(item -> {
                     switch (item.getItemId()) {
                         case R.id.addOnPlaylist:
-                            Toast.makeText(context, "Add successed on My Music playlist", Toast.LENGTH_SHORT).show();
+                            AddToPlaylistDialog.create(songList.get(position)).show(((AppCompatActivity)context).getSupportFragmentManager(), "ADD_PLAYLIST");
                             break;
                         case R.id.delete:
                             deleteFile(songList, position, v);

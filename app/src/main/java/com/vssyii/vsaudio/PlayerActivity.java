@@ -2,13 +2,9 @@ package com.vssyii.vsaudio;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.NotificationCompat;
 import androidx.palette.graphics.Palette;
 
-import android.app.ActivityManager;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -21,8 +17,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
-import android.support.v4.media.session.MediaSessionCompat;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -37,11 +31,10 @@ import com.google.android.material.imageview.ShapeableImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.vssyii.vsaudio.MusicAction.musicAction;
+import com.vssyii.vsaudio.dialog.AddToPlaylistDialog;
 import com.vssyii.vsaudio.models.Song;
-import com.vssyii.vsaudio.notification.ApplicationClass;
-import com.vssyii.vsaudio.notification.NotificationReceiver;
 import com.vssyii.vsaudio.service.MusicService;
-import com.vssyii.vsaudio.util.ActionPlaying;
+import com.vssyii.vsaudio.MusicAction.ActionPlaying;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +48,6 @@ import static com.vssyii.vsaudio.adapter.ArtistSongAdapter.artistSongList;
 import static com.vssyii.vsaudio.adapter.PlaylistSongAdapter.playlistSongs;
 import static com.vssyii.vsaudio.adapter.SongAdapter.getImage;
 import static com.vssyii.vsaudio.fragments.songs_fragment.songList;
-import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_NEXT;
-import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_PLAY;
-import static com.vssyii.vsaudio.notification.ApplicationClass.ACTION_PREVIOUS;
-import static com.vssyii.vsaudio.notification.ApplicationClass.CHANNEL_ID_2;
 
 public class PlayerActivity extends AppCompatActivity
                             implements ActionPlaying, ServiceConnection {
@@ -175,7 +164,7 @@ public class PlayerActivity extends AppCompatActivity
         player_btAddPlayList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Add on My Music playlist", Toast.LENGTH_SHORT).show();
+                AddToPlaylistDialog.create(songList.get(position)).show(((AppCompatActivity) PlayerActivity.this).getSupportFragmentManager(), "ADD_PLAYLIST");
                 return;
             }
         });
@@ -240,7 +229,7 @@ public class PlayerActivity extends AppCompatActivity
             player_tvTitle.setText(listSongs.get(position).title);
             player_tvArtistName.setText(listSongs.get(position).artistName);
 
-            new musicAction(btSetting, getApplication()).createAction(songList, position);
+            new musicAction(btSetting, this).createAction(songList, position);
 
             seekBar.setMax(musicService.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
@@ -275,7 +264,7 @@ public class PlayerActivity extends AppCompatActivity
             player_tvTitle.setText(listSongs.get(position).title);
             player_tvArtistName.setText(listSongs.get(position).artistName);
 
-            new musicAction(btSetting, getApplicationContext()).createAction(songList, position);
+            new musicAction(btSetting, this).createAction(songList, position);
 
             seekBar.setMax(musicService.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
@@ -327,7 +316,7 @@ public class PlayerActivity extends AppCompatActivity
             player_tvTitle.setText(listSongs.get(position).title);
             player_tvArtistName.setText(listSongs.get(position).artistName);
 
-            new musicAction(btSetting, getApplicationContext()).createAction(songList, position);
+            new musicAction(btSetting, this).createAction(songList, position);
 
             seekBar.setMax(musicService.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
@@ -360,7 +349,7 @@ public class PlayerActivity extends AppCompatActivity
             player_tvTitle.setText(listSongs.get(position).title);
             player_tvArtistName.setText(listSongs.get(position).artistName);
 
-            new musicAction(btSetting, getApplicationContext()).createAction(songList, position);
+            new musicAction(btSetting, this).createAction(songList, position);
 
             seekBar.setMax(musicService.getDuration() / 1000);
             PlayerActivity.this.runOnUiThread(new Runnable() {
@@ -585,7 +574,7 @@ public class PlayerActivity extends AppCompatActivity
         metaData(uri);
         player_tvTitle.setText(listSongs.get(position).title);
         player_tvArtistName.setText(listSongs.get(position).artistName);
-        new musicAction(btSetting, getApplicationContext()).createAction(songList, position);
+        new musicAction(btSetting, this).createAction(songList, position);
         musicService.onCompleted();
         musicService.showNotification(R.drawable.notipause);
     }

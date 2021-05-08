@@ -19,15 +19,15 @@ public class PlaylistLoader {
     }
 
     public ArrayList<Playlist> getAllPlaylistsAudio(Context context) {
-        ArrayList<Playlist> playlists = new ArrayList<>();
-        playlists.add(new Playlist(1, "My Music"));
-        playlists.add(new Playlist(2, "Favorite Music"));
+            ArrayList<Playlist> playlists = new ArrayList<>();
+            playlists.add(new Playlist(1, "My Music", null));
+            playlists.add(new Playlist(2, "Favorite Music", null));
 
-        playlists.addAll(getAllPlaylists(context));
-        for (Playlist p : playlists) {
-            Log.d("PLAYLISTTT", "id = " + p.id + " - name = " + p.name);
-        }
-        return playlists;
+            playlists.addAll(getAllPlaylists(context));
+            for (Playlist p : playlists) {
+                Log.d("PLAYLISTTT", "id = " + p.id + " - name = " + p.name);
+            }
+            return playlists;
     }
 
     public static Playlist getPlaylist(Context context, int playlistId) {
@@ -68,7 +68,7 @@ public class PlaylistLoader {
     public static Playlist getPlaylistFromCursor(Cursor cursor) {
         int id = cursor.getInt(0);
         String name = cursor.getString(1);
-        return new Playlist(id, name);
+        return new Playlist(id, name, null);
     }
 
     public static Cursor makePlaylistCursor(Context context, String selection, String[] selectionArg) {

@@ -1,11 +1,9 @@
 package com.vssyii.vsaudio.service;
 
 import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,19 +15,15 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.v4.media.session.MediaSessionCompat;
-import android.util.Log;
-import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.vssyii.vsaudio.MainActivity;
-import com.vssyii.vsaudio.PlayerActivity;
 import com.vssyii.vsaudio.R;
 import com.vssyii.vsaudio.models.Song;
 import com.vssyii.vsaudio.notification.NotificationReceiver;
-import com.vssyii.vsaudio.util.ActionPlaying;
+import com.vssyii.vsaudio.MusicAction.ActionPlaying;
 
 import java.util.ArrayList;
 import java.util.List;

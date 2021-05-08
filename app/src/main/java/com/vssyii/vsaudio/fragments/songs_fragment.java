@@ -35,6 +35,7 @@ public class songs_fragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext().getApplicationContext()));
         recyclerView.setHasFixedSize(true);
 
+
         new loadData().execute("");
 
         return view;
@@ -46,7 +47,7 @@ public class songs_fragment extends Fragment {
         protected String doInBackground(String... strings) {
 
             if (getActivity() != null) {
-                songList = new SongLoader().getAllSongs(getActivity());
+                songList = new SongLoader().getAllSongAudio(getActivity());
                 songAdapter = new SongAdapter(getContext(), songList);
             }
             return "Executed";
