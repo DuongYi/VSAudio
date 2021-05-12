@@ -37,10 +37,6 @@ public class AddToPlaylistDialog extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         long songID = getArguments().getLong("songID");
-        List<Song> songList1 = SongLoader.getAllSongAudio(getContext());
-        Log.e("AAAAAAAAAAAAAAAAAAAA", "" + songID );
-        Song song = SongLoader.getSongByID(getContext(), songID);
-        Log.e("AAAAAAAAAAAAAAAAAAAAT", "" + song.id);
 
         final ArrayList<Playlist> playlists = PlaylistLoader.getAllPlaylists(getActivity());
         CharSequence[] playlistNames = new CharSequence[playlists.size()];
@@ -52,9 +48,9 @@ public class AddToPlaylistDialog extends DialogFragment {
                 .items(playlistNames)
                 .itemsColor(Color.BLUE)
                 .itemsCallback((materialDialog, view, i, charSequence) -> {
-                    if (song == null)
-                        return;
                     materialDialog.dismiss();
+                    Log.e("AAAAAAAAAAAAAAAAAAAAAAAPLAYLIST", "name: " + playlists.get(i).name + " - list: " +playlists.get(i).songs_id);
+                    PlaylistsUtil.addToPlaylist(getActivity(), songID, playlists.get(i).id);
                 })
                 .build();
     }

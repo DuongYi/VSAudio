@@ -8,12 +8,14 @@ import android.net.Uri;
 import android.os.Environment;
 import android.provider.BaseColumns;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.vssyii.vsaudio.R;
+import com.vssyii.vsaudio.dataload.PlaylistLoader;
 import com.vssyii.vsaudio.models.Playlist;
 import com.vssyii.vsaudio.models.Song;
 
@@ -87,43 +89,14 @@ public class PlaylistsUtil {
         }
     }
 
-    public static void addToPlaylist(@NonNull final Context context, final Song song, final int playlistId, final boolean showToastOnFinish) {
-        List<Song> helperList = new ArrayList<>();
-        helperList.add(song);
-        addToPlaylist(context, helperList, playlistId, showToastOnFinish);
-    }
-
-    public static void addToPlaylist(@NonNull final Context context, @NonNull final List<Song> songs, final int playlistId, final boolean showToastOnFinish) {
-        final int size = songs.size();
-        final ContentResolver resolver = context.getContentResolver();
-        final String[] projection = new String[]{
-                "max(" + MediaStore.Audio.Playlists.Members.PLAY_ORDER + ")",
-        };
-        final Uri uri = MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId);
-        Cursor cursor = null;
-        int base = 0;
-
-        try {
-            try {
-                cursor = resolver.query(uri, projection, null, null, null);
-
-                if (cursor != null && cursor.moveToFirst()) {
-                    base = cursor.getInt(0) + 1;
-                }
-            } finally {
-                if (cursor != null) {
-                    cursor.close();
-                }
+    public static void addToPlaylist(@NonNull final Context context, final long songID, final int playlistId) {
+        Playlist musicPlaylist = PlaylistLoader.getPlaylist(context, playlistId);
+        musicPlaylist.addSong(songID);
+        Log.e("AAAAAAAAAAAAAAA", "" + musicPlaylist.songs_id );
+        if (musicPlaylist.songs_id != null) {
+            for (int i = 0; i < musicPlaylist.songs_id.size(); i++) {
+               Log.e("AAAAAAAAAAAAAAAAAAAAAAAPLAYLISTUTIL", "name: " + musicPlaylist.name + " - list: " + musicPlaylist.songs_id);
             }
-
-            int numInserted = 0;
-            for (int offSet = 0; offSet < size; offSet += 1000)
-                numInserted += resolver.bulkInsert(uri, makeInsertItems(songs, offSet, 1000, base));
-
-            if (showToastOnFinish) {
-                Toast.makeText(context, "Instert Song  ", Toast.LENGTH_SHORT).show();
-            }
-        } catch (SecurityException ignored) {
         }
     }
 
@@ -174,42 +147,6 @@ public class PlaylistsUtil {
         }
     }
 
-    public static boolean doPlaylistContains(@NonNull final Context context, final long playlistId, final int songId) {
-        if (playlistId != -1) {
-            try {
-                Cursor c = context.getContentResolver().query(
-                        MediaStore.Audio.Playlists.Members.getContentUri("external", playlistId),
-                        new String[]{MediaStore.Audio.Playlists.Members.AUDIO_ID}, MediaStore.Audio.Playlists.Members.AUDIO_ID + "=?", new String[]{String.valueOf(songId)}, null);
-                int count = 0;
-                if (c != null) {
-                    count = c.getCount();
-                    c.close();
-                }
-                return count > 0;
-            } catch (SecurityException ignored) {
-            }
-        }
-        return false;
-    }
-
-    public static boolean moveItem(@NonNull final Context context, int playlistId, int from, int to) {
-        return MediaStore.Audio.Playlists.Members.moveItem(context.getContentResolver(),
-                playlistId, from, to);
-    }
-
-    public static void renamePlaylist(@NonNull final Context context, final long id, final String newName) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(MediaStore.Audio.PlaylistsColumns.NAME, newName);
-        try {
-            context.getContentResolver().update(EXTERNAL_CONTENT_URI,
-                    contentValues,
-                    MediaStore.Audio.Playlists._ID + "=?",
-                    new String[]{String.valueOf(id)});
-            context.getContentResolver().notifyChange(Uri.parse("content://media"), null);
-        } catch (SecurityException ignored) {
-        }
-    }
-
     public static String getNameForPlaylist(@NonNull final Context context, final long id) {
         try {
             Cursor cursor = context.getContentResolver().query(EXTERNAL_CONTENT_URI,
@@ -229,6 +166,19 @@ public class PlaylistsUtil {
         } catch (SecurityException ignored) {
         }
         return "";
+    }
+
+    public static void renamePlaylist(@NonNull final Context context, final long id, final String newName) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(MediaStore.Audio.PlaylistsColumns.NAME, newName);
+        try {
+            context.getContentResolver().update(EXTERNAL_CONTENT_URI,
+                    contentValues,
+                    MediaStore.Audio.Playlists._ID + "=?",
+                    new String[]{String.valueOf(id)});
+            context.getContentResolver().notifyChange(Uri.parse("content://media"), null);
+        } catch (SecurityException ignored) {
+        }
     }
     
     private static boolean doesPlaylistExist(@NonNull Context context, @NonNull final String selection, @NonNull final String[] values) {

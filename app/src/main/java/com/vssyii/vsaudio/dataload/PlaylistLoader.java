@@ -8,6 +8,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 
 import com.vssyii.vsaudio.models.Playlist;
+import com.vssyii.vsaudio.models.Song;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,15 +19,15 @@ public class PlaylistLoader {
         return getPlaylist(makePlaylistCursor(context, null, null));
     }
 
+    public static final int MY_MUSIC = 1;
+    public static final int FAVORITE_MUSIC =2;
+
     public ArrayList<Playlist> getAllPlaylistsAudio(Context context) {
             ArrayList<Playlist> playlists = new ArrayList<>();
-            playlists.add(new Playlist(1, "My Music", null));
-            playlists.add(new Playlist(2, "Favorite Music", null));
+            playlists.add(new Playlist(MY_MUSIC, "My Music", null));
+            playlists.add(new Playlist(FAVORITE_MUSIC, "Favorite Music", null));
 
             playlists.addAll(getAllPlaylists(context));
-            for (Playlist p : playlists) {
-                Log.d("PLAYLISTTT", "id = " + p.id + " - name = " + p.name);
-            }
             return playlists;
     }
 
@@ -74,8 +75,8 @@ public class PlaylistLoader {
     public static Cursor makePlaylistCursor(Context context, String selection, String[] selectionArg) {
         Uri uri = MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI;
         String projection[] = new String[] {
-                MediaStore.Audio.Playlists._ID,    //1
-                MediaStore.Audio.Playlists.NAME    //2
+                MediaStore.Audio.Playlists._ID,//1
+                MediaStore.Audio.Playlists.NAME//2
         };
         String sortOrder = MediaStore.Audio.Playlists.DEFAULT_SORT_ORDER;
         Cursor cursor = context.getContentResolver().query(uri, projection, selection, selectionArg, sortOrder);

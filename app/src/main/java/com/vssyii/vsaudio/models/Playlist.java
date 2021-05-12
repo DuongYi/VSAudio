@@ -6,18 +6,29 @@ import java.util.List;
 public class Playlist {
     public int id;
     public String name;
-    public List<Long> songs_id = new ArrayList<>();
+    public List<Long> songs_id;
 
     public Playlist() {
         id = -1;
         name = "VS Music";
-        songs_id = null;
+        songs_id = new ArrayList<>();
     }
 
     public Playlist(int id, String name, List<Long> songs_id) {
         this.id = id;
         this.name = name;
-        this.songs_id = songs_id;
+        if (songs_id != null)
+            this.songs_id = songs_id;
+        else
+            this.songs_id = new ArrayList<>();
+    }
+
+    public void addSong(Long id) {
+        this.songs_id.add(id);
+    }
+
+    public List<Long> getSongs_id() {
+        return this.songs_id;
     }
 
 }

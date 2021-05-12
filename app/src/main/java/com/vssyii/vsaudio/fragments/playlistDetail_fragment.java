@@ -92,10 +92,8 @@ public class playlistDetail_fragment extends Fragment {
 
 
     private void setPlaylistList() {
-        List<Integer> integers = new ArrayList<>();
-        integers.add(4);
-        integers.add(8);
-        songlists = PlaylistSongLoader.getAllPlaylistSongs(getActivity(), playlist_id, integers);
+        songlists = PlaylistSongLoader.getAllPlaylistSongs(getActivity(), playlist_id, playlist.songs_id);
+        Log.e("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA", "setPlaylistList: " + playlist.songs_id );
         playlistSongAdapter = new PlaylistSongAdapter(getActivity(), songlists);
         recyclerView.setAdapter(playlistSongAdapter);
     }

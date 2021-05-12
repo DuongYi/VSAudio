@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlaylistSongLoader {
-    public static List<Song> getAllPlaylistSongs(Context context, int playlistId, List<Integer> trackPlaylist_ID) {
+    public static List<Song> getAllPlaylistSongs(Context context, int playlistId, List<Long> trackPlaylist_ID) {
         List<Song> playlistSongList = new ArrayList<>();
 
         Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
@@ -30,15 +30,15 @@ public class PlaylistSongLoader {
 
         if (trackPlaylist_ID != null) {
             for (int i = 0; i < trackPlaylist_ID.size(); i++) {
-                String selection = "is_music=1 and title != '' and track= " + trackPlaylist_ID.get(i);
+                String selection = "is_music=1 and title != '' and _id= " + trackPlaylist_ID.get(i);
                 Cursor cursor = context.getContentResolver().query(uri, projection,
                         selection, null, sortOrder);
 
                 if (cursor != null && cursor.moveToFirst()) {
                     do {
-                        int trackIdNumber = trackPlaylist_ID.get(i);
-                        playlistSongList.add(new Song(cursor.getLong(0), cursor.getString(1), cursor.getLong(2), cursor.getString(3),
-                                cursor.getLong(4),cursor.getString(5), cursor.getInt(6), trackIdNumber, cursor.getString(8)));
+                        long songID = trackPlaylist_ID.get(i);
+                        playlistSongList.add(new Song(songID, cursor.getString(1), cursor.getLong(2), cursor.getString(3),
+                                cursor.getLong(4),cursor.getString(5), cursor.getInt(6), cursor.getInt(7), cursor.getString(8)));
                     }
                     while (cursor.moveToNext());
 
